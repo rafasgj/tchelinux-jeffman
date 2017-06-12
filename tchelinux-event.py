@@ -53,7 +53,7 @@ def inscricoes(event):
         event['texto_inscricoes'] = always + after.format(**event)
 
 def load_config():
-    with open('config.json','r') as config:
+    with open('data/config.json','r') as config:
         event = json.load(config)
         date = datetime.strptime(event['data'],'%Y-%m-%d')
         event['date'] = date
