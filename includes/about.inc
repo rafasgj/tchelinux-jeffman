@@ -10,5 +10,5 @@
         áreas afins, para participar do evento que ocorrerá no dia
         <b>{data}</b> a partir das 8:30h na {instituicao[short_name]}
         em {cidade}.</p>
-    <p><a href="codigo_de_conduta.html" target="_top"><b>Código de Conduta do Tchelinux.</b></a></p>
+    <p><a href="/codigo_de_conduta.html" target="_top"><b>Código de Conduta do Tchelinux.</b></a></p>
 </section>
