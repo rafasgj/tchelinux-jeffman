@@ -2,16 +2,16 @@
 
 from datetime import datetime
 from collections import namedtuple
-
+from operator import itemgetter
 import json
 import csv
-
-import sys
 
 import locale
 locale.setlocale(locale.LC_TIME,'pt_BR')
 
-class Lecture(namedtuple('Lecture','author title abstract keywords level resume')):
+import sys
+
+class Lecture(namedtuple('Lecture','room author title abstract keywords level resume')):
     pass
 
 def load_lectures():
@@ -19,7 +19,7 @@ def load_lectures():
     with open('data/palestras.csv') as csvfile:
         for row in csv.reader(csvfile):
             if 'Timestamp' == row[0]: continue
-            p = Lecture(*row[1:7])
+            p = Lecture(*row[1:8])
             lectures.setdefault(row[0],[]).append(p)
     return lectures
 
@@ -46,7 +46,6 @@ def inscricoes(event):
         poder&atilde;o fazer sua inscri&ccedil;&atildee;o no dia e local do evento,
         mediante disponibilidade de vagas.</b></p>
         """
-    print("<H1>%s, %s, %s</H1>" % (event['date'] <= datetime.today(), event['date'],datetime.today()),file=sys.stderr)
     if event['date'] > datetime.today():
         event['titulo_inscricoes'] = "Inscri&ccedil;&otilde;es"
         closed = event['inscricoes'].get('encerradas', False) or \
@@ -111,7 +110,8 @@ def process_schedule(event, lectures):
                         <tr>
                             <th class="schedule-time">Hor&aacute;rio</th>
     """)
-    numsalas = len(event['salas'])
+    rooms = event['salas']
+    roomcount = len(rooms)
     for sala in event['salas']:
         print ('<th class="schedule-slot" colspan="1" style="text-align:center">Sala {numero}</th>'.format(**sala))
     print('</tr>\n</thead>\n<tbody>')
@@ -147,9 +147,10 @@ def process_schedule(event, lectures):
             elif kn.keywords == "encerramento":
                 label = labels['all']
                 author = 'Moderador: ' + author
-            print (template_other.format(time=k,span=numsalas,
+            print (template_other.format(time=k,span=roomcount,
                                          label=label, **kn._asdict()))
         else:
+            slot.sort(key=itemgetter(0))
             print('<tr class="schedule-other">')
             print('<td class="schedule-time">{time}</td>'.format(time=k))
             for entry in slot:
