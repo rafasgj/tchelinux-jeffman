@@ -1,0 +1,32 @@
+{
+    "id": "jeffman",
+    "data": "2017-06-11",
+    "cidade": "Santa Cruz",
+    "instituicao": {
+        "diretorio": "<a href='http://dacomp.forumeiros.com/'>Diretório Acadêmico da Ciência da Computação (DACOMP)</a> da",
+        "long_name": "Universidade de Santa Cruz do Sul",
+        "short_name": "UNISC",
+        "endereco": "Av. Independência, 2293",
+        "url": "http://unisc.br",
+        "logo": "images/UNISC.png",
+        "latitude": -29.697987,
+        "longitude": -52.438431
+    },
+    "salas" : [
+        { "numero": "1806", "tema": "" },
+        { "numero": "1807", "tema": "" },
+        { "numero": "1808", "tema": "" }
+    ],
+    "inscricoes": {
+        "deadline": "2017-06-12",
+        "url": "https://goo.gl/forms/gdiu9s7bcC0faSWl2",
+        "vagas": 250,
+        "encerradas": false
+    },
+    "resultados": {
+            "participantes": 100,
+            "alimentos": 140,
+            "palestras": 16,
+            "palestrantes": 11
+    }
+}
