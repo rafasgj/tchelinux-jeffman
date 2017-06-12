@@ -1,6 +1,6 @@
 {
     "id": "jeffman",
-    "data": "2017-06-11",
+    "data": "2017-06-15",
     "cidade": "Santa Cruz",
     "instituicao": {
         "diretorio": "<a href='http://dacomp.forumeiros.com/'>Diretório Acadêmico da Ciência da Computação (DACOMP)</a> da",
@@ -23,7 +23,7 @@
         "vagas": 250,
         "encerradas": false
     },
-    "resultados": {
+    "resultado": {
             "participantes": 100,
             "alimentos": 140,
             "palestras": 16,
