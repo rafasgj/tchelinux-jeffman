@@ -6,6 +6,11 @@ from collections import namedtuple
 import json
 import csv
 
+import sys
+
+import locale
+locale.setlocale(locale.LC_TIME,'pt_BR')
+
 class Lecture(namedtuple('Lecture','author title abstract keywords level resume')):
     pass
 
@@ -20,30 +25,32 @@ def load_lectures():
 
 def inscricoes(event):
     always = """
-        <p> A participa&ccedil;&atilde;o no evento &eacute; <b>gratuita</b>
-        por&eacute;m os participantes s&atilde;o encorajados a doar 2kg de
-        alimentos n&atilde;o perec&iacute;veis (exceto sal) que ser&atilde;o
-        doados a institui&ccedil;&otilde;es de caridade da região.
-        </p>
+        <p> O evento tem <b>entrada franca</b>, por&eacute;m os participantes
+        s&atilde;o encorajados a doar 2kg de alimentos n&atilde;o
+        perec&iacute;veis (exceto sal), que ser&atilde;o doados a
+        institui&ccedil;&otilde;es de caridade da regi&atilde;o.</p>
         <p>Os alimentos ser&atilde;o recebidos no momento do credenciamento.</p>
     """
     before = """
-        <p>As inscrições estão abertas até o dia {inscricoes[deadline]},
-        ou até se esgotarem as {inscricoes[vagas]}.</p>
+        <p>As inscri&ccedil;&otilde;es para o evento estarão abertas até
+        o dia <b>{inscricoes[data]}</b>, ou até se esgotarem as
+        <b>{inscricoes[vagas]}</b> vagas.</p>
         <p><b><a href='{inscricoes[url]}'>Inscreva-se agora!</a><b></p>
         """
     after = """
-        <p>Cerca de {resultado[participantes]} participantes atenderam
-        ao evento, onde foram arrecadados mais de {resultado[alimentos]}
+        <p>Cerca de <b>{resultado[participantes]}</b> participantes atenderam
+        ao evento, onde foram arrecadados mais de <b>{resultado[alimentos]}</b>
         Kg de alimentos.</p>"""
     closed="""
-        <p><b>As inscrições pelo site foram encerradas. Interessados
-        poderão fazer inscrição no local do evento, mediante
-        disponibilidade de vagas.</b><p>
+        <p><b>As inscri&ccedil;&otilde;es pelo site foram encerradas. Interessados
+        poder&atilde;o fazer sua inscri&ccedil;&atildee;o no dia e local do evento,
+        mediante disponibilidade de vagas.</b></p>
         """
-    if event['date'] <= datetime.today():
-        event['titulo_inscricoes'] = "Inscrições"
-        closed = event['inscricoes'].get('encerradas', False)
+    print("<H1>%s, %s, %s</H1>" % (event['date'] <= datetime.today(), event['date'],datetime.today()),file=sys.stderr)
+    if event['date'] > datetime.today():
+        event['titulo_inscricoes'] = "Inscri&ccedil;&otilde;es"
+        closed = event['inscricoes'].get('encerradas', False) or \
+                    event['inscricoes']['date'] > datetime.today()
         if closed:
             event['texto_inscricoes'] = always + closed
         else:
@@ -61,6 +68,9 @@ def load_config():
         event['ano'] = date.year
         event['mes'] = date.month
         event['dia'] = date.day
+        date = datetime.strptime(event['inscricoes'].get('deadline', event['data']),'%Y-%m-%d')
+        event['inscricoes']['date'] = date
+        event['inscricoes']['data'] = date.strftime("%d de %B de %Y")
         if event['instituicao'].get('diretorio',None):
             event['instituicao']['artigo'] = 'o'
         else:
