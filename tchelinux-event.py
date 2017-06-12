@@ -6,7 +6,7 @@ from collections import namedtuple
 import json
 import csv
 
-class Lecture(namedtuple('Lecture','speaker title abstract keywords level resume')):
+class Lecture(namedtuple('Lecture','author title abstract keywords level resume')):
     pass
 
 def load_lectures():
@@ -85,10 +85,6 @@ def include(filename,**kargs):
         print(f.read().format(**kargs),end='')
 
 def process_schedule(event, lectures):
-    # PROGRAMACAO
-    pass
-
-def process_lectures(event, lectures):
     labels = {
         "all":'<span class="label label-info">Todo o Público</span>',
         "Principiante":'<span class="label label-success">Principiante</span>',
@@ -116,17 +112,17 @@ def process_lectures(event, lectures):
             <td class="schedule-slot" colspan="{span}" style="text-align:center">
                 {title}<br/>
                 {label}<br/>
-                <span class="speaker">{speaker}</span>
+                <span class="speaker">{author}</span>
             </td>
         </tr>
         """
     template_lecture = """
         <td class="schedule-slot" colspan="1" rowspan="1">
-            <a href="#speech-eeeee">
+            <a href="#speech-{count}">
                 <span class="description">{title}<br/></span>
             </a>
             {label}
-            <span class="speaker">{speaker}</span>
+            <span class="speaker">{author}</span>
         </td>
     """
     speech = 1
@@ -135,15 +131,14 @@ def process_lectures(event, lectures):
         if len(slot) == 1:
             kn = slot[0]
             label = ''
-            speaker = kn.speaker
+            author = kn.author
             if kn.keywords == "abertura":
                 label = labels['all']
             elif kn.keywords == "encerramento":
                 label = labels['all']
-                speaker = 'Moderador: ' + speaker
+                author = 'Moderador: ' + author
             print (template_other.format(time=k,span=numsalas,
-                                         title=kn.title,label=label,
-                                         speaker=speaker))
+                                         label=label, **kn._asdict()))
         else:
             print('<tr class="schedule-other">')
             print('<td class="schedule-time">{time}</td>'.format(time=k))
@@ -153,6 +148,38 @@ def process_lectures(event, lectures):
                 speech += 1
             print("</tr>")
     print ("</tbody>\n</table>\n</div>\n</div>\n</section>")
+
+def process_abstracts(event,lectures):
+    template = """
+    <div id="speech-{count}" class=speech-container>
+        <span class="speech-time">{time}</span>
+        <div class="speech-info">
+        <h3 class="speech-title">{title}
+        <!-- TODO: generate liks for SLIDES and CODE
+        <a href="#">
+            <span class="label label-default slides">SLIDES</span>
+        </a>
+        -->
+        </h3>
+        <span class="speech-description">{abstract}</span>
+        <h3 class="speaker-name">{author}</h3>
+        <span class="speaker-bio">{resume}</span>
+    </div>
+    """
+
+    print ("""
+        <section id="palestras">
+            <div class="container">
+                <h2 class="subtitle">Palestras</h2>
+    """)
+    speech = 1
+    for k in sorted(lectures):
+        slot = lectures[k]
+        if len(slot) == 1: continue
+        for kn in slot:
+            print(template.format(**kn._asdict(),count=speech,time=k))
+            speech += 1
+    print("</div>\n</section>")
 
 def process_support(event):
     include('support', **event)
@@ -168,7 +195,7 @@ def create_index_page(event, lectures):
     include('subscription', **event)
     include('certificates', **event)
     process_schedule(event,lectures)
-    process_lectures(event,lectures)
+    process_abstracts(event,lectures)
     include('location', **event)
     process_support(event)
     include('footer',**event)
