@@ -163,9 +163,13 @@ def process_schedule(event, lectures):
 def process_abstracts(event,lectures):
     template = """
     <div id="speech-{count}" class=speech-container>
-        <span class="speech-time">{time}</span>
+        <span class="speech-time" style="text-align:center;">{time}<br/>
+            <span style="font-size:smaller;">Sala</span><br/>
+            <span style="font-size:smaller;">{number}</span>
+        </span>
         <div class="speech-info">
-        <h3 class="speech-title">{title}
+        <h3 class="speech-title">
+            {title}
         <!-- TODO: generate liks for SLIDES and CODE
         <a href="#">
             <span class="label label-default slides">SLIDES</span>
@@ -187,8 +191,10 @@ def process_abstracts(event,lectures):
     for k in sorted(lectures):
         slot = lectures[k]
         if len(slot) == 1: continue
+        slot.sort(key=itemgetter(0))
         for kn in slot:
-            print(template.format(**kn._asdict(),count=speech,time=k))
+            print(template.format(**kn._asdict(),count=speech,time=k,
+                                  number=event['salas'][int(kn.room)-1]['numero']))
             speech += 1
     print("</div>\n</section>")
 
