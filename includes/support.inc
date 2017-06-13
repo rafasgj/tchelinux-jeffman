@@ -2,6 +2,7 @@
     <div class="container">
         <div id="apoio_evento">
             <h2 class="subtitle">Apoio</h2>
+            {sponsors}
             <h4>Institucional</h4>
             <ul class="apoio-list">
                 <li class="apoio-item">
@@ -9,10 +10,8 @@
                     <img src="{instituicao[logo]}" alt="{instituicao[short_name]}" class="photo"/>
                     </a>
                 </li>
+                {support}
             </ul>
-        </div>
-        <div id="patrocinio_evento">
-            <!-- <h4>Patrocinio</h4> list de patrocinadores-->
             <h4>Gostaria de patrocinar os eventos do Tchelinux?</h4>
             <ul class="apoio-list">
                 <li class="apoio-item">

@@ -207,7 +207,24 @@ def process_abstracts(event,lectures):
     print("</div>\n</section>",file=indexpage)
 
 def process_support(event):
-    include('support', **event)
+    support_item = """
+        <li class="apoio-item">
+            <a href="{url}" title="{nome}" class="apoio-logo apoio-link">
+            <img src="{imagem}" alt="{short_name}" class="photo"/>
+            </a>
+        </li>
+    """
+    with open('includes/support.inc','r') as f:
+        data = f.read()
+    sponsors = ""
+    for s in event.get('patrocinadores',[]):
+        sponsors += support_item.format(**s)
+    if sponsors:
+        sponsors = '<h4>Patrocinio</h4><ul class="apoio-list">{s}</ul>'.format(s=sponsors)
+    support = ""
+    for s in event.get('apoio',[]):
+        support += support_item.format(**s)
+    print(data.format(**event,sponsors=sponsors, support=support), file=indexpage)
 
 def create_index_page(event, lectures):
     print('<!DOCTYPE html>',file=indexpage)
@@ -232,5 +249,4 @@ event = load_config()
 lectures = load_lectures()
 create_CNAME(event)
 create_index_page(event,lectures)
-
 indexpage.close()

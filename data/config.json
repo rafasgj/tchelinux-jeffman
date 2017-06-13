@@ -3,7 +3,7 @@
     "data": "2017-06-15",
     "cidade": "Santa Cruz",
     "instituicao": {
-        "diretorio": "<a href='http://dacomp.forumeiros.com/'>Diretório Acadêmico da Ciência da Computação (DACOMP)</a> da",
+        "diretorio": "<a href=''></a> da",
         "long_name": "Universidade de Santa Cruz do Sul",
         "short_name": "UNISC",
         "endereco": "Av. Independência, 2293",
@@ -12,6 +12,28 @@
         "latitude": -29.697987,
         "longitude": -52.438431
     },
+    "patrocinadores": [
+        {
+            "nome": "Idealogic, Inc.",
+            "short_name": "Idealogic, Inc.",
+            "imagem": "images/IDEALOGIC.png",
+            "url": "http://idealogic.com.br"
+        },
+        {
+            "nome": "Imply Corp.",
+            "short_name": "Imply Corp.",
+            "imagem": "images/IMPLY.png",
+            "url": "http://imply.com.br"
+        }
+    ],
+    "apoio": [
+        {
+            "nome": "Diretório Acadêmico da Ciência da Computação",
+            "short_name": "DACOMP",
+            "url": "http://dacomp.forumeiros.com/",
+            "imagem": "images/DACOMP.png"
+        }
+    ],
     "salas" : [
         { "numero": "1806", "tema": "" },
         { "numero": "1807", "tema": "" },
