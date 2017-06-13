@@ -9,6 +9,8 @@ import csv
 import locale
 locale.setlocale(locale.LC_TIME,'pt_BR')
 
+indexpage = open('index.html','w+')
+
 import sys
 
 class Lecture(namedtuple('Lecture','room author title abstract keywords level resume')):
@@ -91,7 +93,7 @@ def create_CNAME(event):
 
 def include(filename,**kargs):
     with open('includes/'+filename+".inc") as f:
-        print(f.read().format(**kargs),end='')
+        print(f.read().format(**kargs),end='',file=indexpage)
 
 def process_schedule(event, lectures):
     labels = {
@@ -109,12 +111,15 @@ def process_schedule(event, lectures):
                     <thead>
                         <tr>
                             <th class="schedule-time">Hor&aacute;rio</th>
-    """)
+    """, file=indexpage)
     rooms = event['salas']
     roomcount = len(rooms)
     for sala in event['salas']:
-        print ('<th class="schedule-slot" colspan="1" style="text-align:center">Sala {numero}</th>'.format(**sala))
-    print('</tr>\n</thead>\n<tbody>')
+        print ("""
+            <th class="schedule-slot" colspan="1" style="text-align:center">
+                Sala {numero}
+            </th>""".format(**sala),file=indexpage)
+    print('</tr>\n</thead>\n<tbody>',file=indexpage)
 
     template_other = """
         <tr class="schedule-other">
@@ -148,17 +153,19 @@ def process_schedule(event, lectures):
                 label = labels['all']
                 author = 'Moderador: ' + author
             print (template_other.format(time=k,span=roomcount,
-                                         label=label, **kn._asdict()))
+                                         label=label, **kn._asdict()),
+                                         file=indexpage)
         else:
             slot.sort(key=itemgetter(0))
-            print('<tr class="schedule-other">')
-            print('<td class="schedule-time">{time}</td>'.format(time=k))
+            print('<tr class="schedule-other">',file=indexpage)
+            print('<td class="schedule-time">{time}</td>'.format(time=k),file=indexpage)
             for entry in slot:
                 print(template_lecture.format(**entry._asdict(),count=speech,
-                                              label=labels[entry.level]))
+                                              label=labels[entry.level]),
+                                              file=indexpage)
                 speech += 1
-            print("</tr>")
-    print ("</tbody>\n</table>\n</div>\n</div>\n</section>")
+            print("</tr>",file=indexpage)
+    print ("</tbody>\n</table>\n</div>\n</div>\n</section>",file=indexpage)
 
 def process_abstracts(event,lectures):
     template = """
@@ -186,7 +193,7 @@ def process_abstracts(event,lectures):
         <section id="palestras">
             <div class="container">
                 <h2 class="subtitle">Palestras</h2>
-    """)
+    """,file=indexpage)
     speech = 1
     for k in sorted(lectures):
         slot = lectures[k]
@@ -194,18 +201,19 @@ def process_abstracts(event,lectures):
         slot.sort(key=itemgetter(0))
         for kn in slot:
             print(template.format(**kn._asdict(),count=speech,time=k,
-                                  number=event['salas'][int(kn.room)-1]['numero']))
+                                  number=event['salas'][int(kn.room)-1]['numero']),
+                                  file=indexpage)
             speech += 1
-    print("</div>\n</section>")
+    print("</div>\n</section>",file=indexpage)
 
 def process_support(event):
     include('support', **event)
 
 def create_index_page(event, lectures):
-    print('<!DOCTYPE html>')
-    print('<html>')
+    print('<!DOCTYPE html>',file=indexpage)
+    print('<html>',file=indexpage)
     include('head')
-    print('<body>')
+    print('<body>',file=indexpage)
     include('navbar', **event)
     include('page_header', **event)
     include('about', **event)
@@ -217,10 +225,12 @@ def create_index_page(event, lectures):
     process_support(event)
     include('footer',**event)
     include('load_scripts')
-    print('</body>')
-    print('</html>')
+    print('</body>',file=indexpage)
+    print('</html>',file=indexpage)
 
 event = load_config()
 lectures = load_lectures()
 create_CNAME(event)
 create_index_page(event,lectures)
+
+indexpage.close()
