@@ -226,6 +226,21 @@ def process_support(event):
         support += support_item.format(**s)
     print(data.format(**event,sponsors=sponsors, support=support), file=indexpage)
 
+def process_certificates(event):
+    start = """
+        <p>Serão fornecidos certificados digitais para os participantes
+        do evento. Para obtê-los, você deverá utilizar o email fornecido
+        na sua inscrição para o evento.</p>
+    """
+    finished = """
+        <p>Obtenha seu certificado utilizando o email da inscrição no site
+        <a href="https://certificados.tchelinux.org" target="_blank">https://certificados.tchelinux.org</a>.</p>
+    """
+    cert_text = start if event['date'] > datetime.today() else finished
+    with open('includes/certificates.inc') as f:
+        data = f.read().format(certificates=cert_text,**event)
+    print(data,end='',file=indexpage)
+
 def create_index_page(event, lectures):
     print('<!DOCTYPE html>',file=indexpage)
     print('<html>',file=indexpage)
@@ -235,7 +250,7 @@ def create_index_page(event, lectures):
     include('page_header', **event)
     include('about', **event)
     include('subscription', **event)
-    include('certificates', **event)
+    process_certificates(event)
     process_schedule(event,lectures)
     process_abstracts(event,lectures)
     include('location', **event)
