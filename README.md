@@ -43,6 +43,9 @@ altere com as informações do evento.
 O **codinome** é o nome utilizado no evento para definir o site, por
 exemplo "poa" para "Porto Alegre", cujo site seria "poa.tchelinux.org".
 
+Qualquer imagem que você deseje utilizar no evento deve ser criada
+dentro de um diretorio "images", na raiz do projeto.
+
 ## 5. Após o encerramento do Call For Papers
 
 Após finalizar o _call for papers_, defina as palestras a serem inseridas
