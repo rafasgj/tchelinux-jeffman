@@ -1,4 +1,5 @@
-/images/
+/images/*
+!/images/tchelinux.png
 CNAME
 index.html
 
