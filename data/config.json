@@ -40,6 +40,7 @@
         { "numero": "1808", "tema": "" }
     ],
     "inscricoes": {
+        "inicio": "2017-05-10`",
         "deadline": "2017-06-12",
         "url": "https://goo.gl/forms/gdiu9s7bcC0faSWl2",
         "vagas": 250,
