@@ -7,7 +7,7 @@
             <ul class="apoio-list">
                 <li class="apoio-item">
                     <a href="{instituicao[url]}" title="Institui&ccedil;&atilde;o" class="apoio-logo apoio-link">
-                    <img src="{instituicao[logo]}" alt="{instituicao[short_name]}" class="photo"/>
+                    <img src="images/{instituicao[logo]}" alt="{instituicao[short_name]}" class="photo"/>
                     </a>
                 </li>
                 {support}
