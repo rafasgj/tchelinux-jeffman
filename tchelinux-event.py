@@ -37,43 +37,61 @@ def load_lectures(eventfile):
     return lectures
 
 def inscricoes(event):
-    always = """
-        <p> O evento tem <b>entrada franca</b>, por&eacute;m os participantes
-        s&atilde;o encorajados a doar 2kg de alimentos n&atilde;o
-        perec&iacute;veis (exceto sal), que ser&atilde;o doados a
-        institui&ccedil;&otilde;es de caridade da regi&atilde;o.</p>
-        <p>Os alimentos ser&atilde;o recebidos no momento do credenciamento.</p>
+    date = event['date']
+    fix_date('inscricoes:deadline',date-timedelta(days=1),event)
+    fix_date('inscricoes:inicio',date-timedelta(days=20),event)
+    texto = """
+        <p> O evento tem <b>entrada franca</b>, por&eacute;m os
+        participantes s&atilde;o encorajados a doar 2kg de alimentos
+        n&atilde;o perec&iacute;veis (exceto sal), que ser&atilde;o
+        doados a institui&ccedil;&otilde;es de caridade da
+        regi&atilde;o.</p>
+        <p>Os alimentos ser&atilde;o recebidos no momento do
+        credenciamento.</p>
     """
     before = """
+        <p>As inscri&ccedil;&otilde;es para participação no evento
+        estarão abertas a partir do dia <b>{inscricoes[inicio_str]}</b>,
+        até o dia <b>{inscricoes[deadline_str]}</b>. Serão
+        disponibilizadas <b>{inscricoes[vagas]}</b> vagas para o
+        evento.</p>
+    """
+    opened = """
         <p>As inscri&ccedil;&otilde;es para o evento estarão abertas até
-        o dia <b>{inscricoes[data]}</b>, ou até se esgotarem as
+        o dia <b>{inscricoes[deadline_str]}</b>, ou até se esgotarem as
         <b>{inscricoes[vagas]}</b> vagas.</p>
         <p><b><a href='{inscricoes[url]}'>Inscreva-se agora!</a><b></p>
         """
     after = """
-        <p>Cerca de <b>{resultado[participantes]}</b> participantes atenderam
-        ao evento, onde foram arrecadados mais de <b>{resultado[alimentos]}</b>
-        Kg de alimentos.</p>"""
+        <p>Cerca de <b>{resultado[participantes]}</b> participantes
+        atenderam ao evento, onde foram arrecadados mais de
+        <b>{resultado[alimentos]} Kg</b> de alimentos.</p>"""
     closed="""
-        <p><b>As inscri&ccedil;&otilde;es pelo site foram encerradas. Interessados
-        poder&atilde;o fazer sua inscri&ccedil;&atilde;o no dia e local do evento,
-        mediante disponibilidade de vagas.</b></p>
+        <p><b>As inscri&ccedil;&otilde;es pelo site foram encerradas.
+        Interessados poder&atilde;o fazer sua inscri&ccedil;&atilde;o no
+        dia e local do evento, mediante disponibilidade de vagas.</b>
+        </p>
         """
-    if event['date'] > datetime.today():
+    start_date = event['inscricoes']['inicio']
+    end_date = event['inscricoes']['inicio']
+    encerradas = event['inscricoes'].get('encerradas', False)
+    tdy = datetime.today()
+    if date > datetime.today(): # se evento ainda nao se realizou...
         event['titulo_inscricoes'] = "Inscri&ccedil;&otilde;es"
-        nosignup = event['inscricoes'].get('encerradas', False) or \
-                    event['inscricoes']['date'] < datetime.today()
-        if nosignup:
-            event['texto_inscricoes'] = always + closed
+        if tdy < start_date:
+            event['texto_inscricoes'] = texto + before.format(**event)
+        elif start_date <= tdy and end_date >= tdy and not encerradas:
+            event['texto_inscricoes'] = texto + opened.format(**event)
         else:
-            event['texto_inscricoes'] = always + before.format(**event)
-    else:
+            event['texto_inscricoes'] = texto + closed.format(**event)
+    else: # evento já realizado..
         event['titulo_inscricoes'] = "Resultados"
-        event['texto_inscricoes'] = always + after.format(**event)
+        event['texto_inscricoes'] = texto + after.format(**event)
 
 def format_date(date):
-    date = datetime.strptime(date,'%Y-%m-%d')
-    return date.strftime("%d de %B de %Y")
+    if type(date) == str:
+        date = datetime.strptime(date,'%Y-%m-%d')
+    return date, date.strftime("%d de %B de %Y")
 
 def fix_date(path, default_date, event):
     l = path.split(":")
@@ -82,22 +100,21 @@ def fix_date(path, default_date, event):
         d = d.setdefault(i,{})
     f = l[-1]
     fd = d.setdefault(f, default_date)
-    d.setdefault(f+"_str", format_date(fd))
+    d[f], d[f+"_str"] = format_date(fd)
 
 def load_config(eventfile):
     with open('data/'+eventfile+'.json','r') as config:
         event = json.load(config)
         date = datetime.strptime(event['data'],'%Y-%m-%d')
-        idate = datetime.strptime(event['inscricoes'].get('deadline', event['data']),'%Y-%m-%d')
         event['date'] = date
         event['ano'] = date.year
         event['mes'] = date.month
         event['dia'] = date.day
         event['data'] = date.strftime("%d de %B de %Y")
-        event['inscricoes']['date'] = idate
-        event['inscricoes']['data'] = idate.strftime("%d de %B de %Y")
-        if event['instituicao'].get('diretorio',None):
+        event['instituicao'].setdefault('short_name',event['instituicao']['long_name'])
+        if event['instituicao'].setdefault('diretorio',''):
             event['instituicao']['artigo'] = 'o'
+            event['instituicao']['diretorio'] += ' da '
         else:
             event['instituicao']['artigo'] = 'a'
         if event['instituicao'].get('local_map',None):
@@ -109,9 +126,9 @@ def load_config(eventfile):
         else:
             event['local_map'] = ''
 
-        ed = event['data']
         fix_date('callForPapers:deadline',date-timedelta(days=15),event)
-        fix_date('callForPapers:anuncio',date-timedelta(days=12),event)
+        ddate = event['callForPapers']['deadline']
+        fix_date('callForPapers:anuncio',ddate+timedelta(days=3),event)
         inscricoes(event)
     return event
 
@@ -142,9 +159,11 @@ def process_schedule(event, lectures):
     rooms = event['salas']
     roomcount = len(rooms)
     for sala in event['salas']:
+        sala.setdefault('tema',"")
         print ("""
             <th class="schedule-slot" colspan="1" style="text-align:center">
-                Sala {numero}
+                Sala {numero}<br/>
+                <small>{tema}</small>
             </th>""".format(**sala),file=indexpage)
     print('</tr>\n</thead>\n<tbody>',file=indexpage)
 
