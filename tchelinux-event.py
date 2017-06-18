@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-from datetime import datetime
+from datetime import datetime, timedelta
 from collections import namedtuple
 from operator import itemgetter
 import json
@@ -16,13 +16,24 @@ import sys
 class Lecture(namedtuple('Lecture','room author title abstract keywords level resume')):
     pass
 
-def load_lectures():
-    lectures = {}
-    with open('data/palestras.csv') as csvfile:
-        for row in csv.reader(csvfile):
-            if 'Timestamp' == row[0]: continue
-            p = Lecture(*row[1:8])
-            lectures.setdefault(row[0],[]).append(p)
+def include_file(filename):
+    with open('includes/'+filename+'.inc','r') as f:
+        return f.read()
+
+
+def load_lectures(eventfile):
+    lectures = None
+    try:
+        with open('data/%s.csv'%eventfile) as csvfile:
+            lectures = {}
+            for row in csv.reader(csvfile):
+                if 'Timestamp' == row[0]: continue
+                p = Lecture(*row[1:8])
+                lectures.setdefault(row[0],[]).append(p)
+    except:
+        # Really, there's nothinng to do, but show it.
+        print("Não encontrado dados de palestras para",eventfile,file=sys.stderr)
+        print("Assumindo que a submissão de palestras não encerrou.",file=sys.stderr)
     return lectures
 
 def inscricoes(event):
@@ -45,14 +56,14 @@ def inscricoes(event):
         Kg de alimentos.</p>"""
     closed="""
         <p><b>As inscri&ccedil;&otilde;es pelo site foram encerradas. Interessados
-        poder&atilde;o fazer sua inscri&ccedil;&atildee;o no dia e local do evento,
+        poder&atilde;o fazer sua inscri&ccedil;&atilde;o no dia e local do evento,
         mediante disponibilidade de vagas.</b></p>
         """
     if event['date'] > datetime.today():
         event['titulo_inscricoes'] = "Inscri&ccedil;&otilde;es"
-        closed = event['inscricoes'].get('encerradas', False) or \
-                    event['inscricoes']['date'] > datetime.today()
-        if closed:
+        nosignup = event['inscricoes'].get('encerradas', False) or \
+                    event['inscricoes']['date'] < datetime.today()
+        if nosignup:
             event['texto_inscricoes'] = always + closed
         else:
             event['texto_inscricoes'] = always + before.format(**event)
@@ -60,18 +71,31 @@ def inscricoes(event):
         event['titulo_inscricoes'] = "Resultados"
         event['texto_inscricoes'] = always + after.format(**event)
 
-def load_config():
-    with open('data/config.json','r') as config:
+def format_date(date):
+    date = datetime.strptime(date,'%Y-%m-%d')
+    return date.strftime("%d de %B de %Y")
+
+def fix_date(path, default_date, event):
+    l = path.split(":")
+    d = event
+    for i in [ l[x] for x in range(len(l)-1) ]:
+        d = d.setdefault(i,{})
+    f = l[-1]
+    fd = d.setdefault(f, default_date)
+    d.setdefault(f+"_str", format_date(fd))
+
+def load_config(eventfile):
+    with open('data/'+eventfile+'.json','r') as config:
         event = json.load(config)
         date = datetime.strptime(event['data'],'%Y-%m-%d')
+        idate = datetime.strptime(event['inscricoes'].get('deadline', event['data']),'%Y-%m-%d')
         event['date'] = date
-        event['data'] = date.strftime("%d de %B de %Y")
         event['ano'] = date.year
         event['mes'] = date.month
         event['dia'] = date.day
-        date = datetime.strptime(event['inscricoes'].get('deadline', event['data']),'%Y-%m-%d')
-        event['inscricoes']['date'] = date
-        event['inscricoes']['data'] = date.strftime("%d de %B de %Y")
+        event['data'] = date.strftime("%d de %B de %Y")
+        event['inscricoes']['date'] = idate
+        event['inscricoes']['data'] = idate.strftime("%d de %B de %Y")
         if event['instituicao'].get('diretorio',None):
             event['instituicao']['artigo'] = 'o'
         else:
@@ -80,10 +104,14 @@ def load_config():
             event['local_map'] = """
                 <div id="local_map">
                     <h4>Mapa da {instituicao[short_name]}</h4>
-                    <img src="{instituicao[local_map]}" alt="{instituicao[short_name]}" class="photo"/>
+                    <img src="images/{instituicao[local_map]}" alt="{instituicao[short_name]}" class="photo"/>
                 </div>""".format(**event)
         else:
             event['local_map'] = ''
+
+        ed = event['data']
+        fix_date('callForPapers:deadline',date-timedelta(days=15),event)
+        fix_date('callForPapers:anuncio',date-timedelta(days=12),event)
         inscricoes(event)
     return event
 
@@ -92,8 +120,7 @@ def create_CNAME(event):
         cname.write('{id}.tchelinux.org'.format(**event))
 
 def include(filename,**kargs):
-    with open('includes/'+filename+".inc") as f:
-        print(f.read().format(**kargs),end='',file=indexpage)
+    print(include_file(filename).format(**kargs),end='',file=indexpage)
 
 def process_schedule(event, lectures):
     labels = {
@@ -168,27 +195,7 @@ def process_schedule(event, lectures):
     print ("</tbody>\n</table>\n</div>\n</div>\n</section>",file=indexpage)
 
 def process_abstracts(event,lectures):
-    template = """
-    <div id="speech-{count}" class=speech-container>
-        <span class="speech-time" style="text-align:center;">{time}<br/>
-            <span style="font-size:smaller;">Sala</span><br/>
-            <span style="font-size:smaller;">{number}</span>
-        </span>
-        <div class="speech-info">
-        <h3 class="speech-title">
-            {title}
-        <!-- TODO: generate liks for SLIDES and CODE
-        <a href="#">
-            <span class="label label-default slides">SLIDES</span>
-        </a>
-        -->
-        </h3>
-        <span class="speech-description">{abstract}</span>
-        <h3 class="speaker-name">{author}</h3>
-        <span class="speaker-bio">{resume}</span>
-    </div>
-    """
-
+    template = include_file('abstract')
     print ("""
         <section id="palestras">
             <div class="container">
@@ -210,7 +217,7 @@ def process_support(event):
     support_item = """
         <li class="apoio-item">
             <a href="{url}" title="{nome}" class="apoio-logo apoio-link">
-            <img src="{imagem}" alt="{short_name}" class="photo"/>
+            <img src="images/{imagem}" alt="{short_name}" class="photo"/>
             </a>
         </li>
     """
@@ -242,26 +249,32 @@ def process_certificates(event):
     print(data,end='',file=indexpage)
 
 def create_index_page(event, lectures):
-    print('<!DOCTYPE html>',file=indexpage)
-    print('<html>',file=indexpage)
-    include('head')
+    print('<!DOCTYPE html>\n<html>',file=indexpage)
+    include('head', **event)
     print('<body>',file=indexpage)
     include('navbar', **event)
     include('page_header', **event)
     include('about', **event)
     include('subscription', **event)
     process_certificates(event)
-    process_schedule(event,lectures)
-    process_abstracts(event,lectures)
+    if lectures != None:
+        process_schedule(event,lectures)
+        process_abstracts(event,lectures)
+    else:
+        include('call4papers', **event)
     include('location', **event)
     process_support(event)
     include('footer',**event)
     include('load_scripts')
-    print('</body>',file=indexpage)
-    print('</html>',file=indexpage)
+    print('</body>\n<html>',file=indexpage)
 
-event = load_config()
-lectures = load_lectures()
+eventfile = 'config'
+if len(sys.argv) > 1:
+    eventfile = sys.argv[1]
+event = load_config(eventfile)
+lectures = load_lectures(eventfile)
 create_CNAME(event)
 create_index_page(event,lectures)
 indexpage.close()
+
+#<p><a target="_blank" href="{inscricoes[url]}">Inscreva-se para o evento!</a></p>
