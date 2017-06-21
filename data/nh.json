@@ -1,0 +1,36 @@
+{
+    "id": "nh",
+    "data": "2017-08-12",
+    "cidade": "Novo Hamburgo",
+    "instituicao": {
+        "long_name": "FTEC Faculdades de Tecnologia",
+        "short_name": "FTEC",
+        "endereco": "Rua Silveira Martins, 780 ",
+        "url": "http://www.ftec.com.br",
+        "logo": "ftec.png",
+        "latitude": -29.681352,
+        "longitude":  -51.125599
+    },
+    "patrocinadores": [
+    ],
+    "apoio": [
+    ],
+    "salas" : [
+        { "numero": "1", "tema": "" },
+        { "numero": "2", "tema": "" },
+        { "numero": "3", "tema": "" },
+        { "numero": "4", "tema": "" }
+    ],
+    "callForPapers": {
+        "url": "https://goo.gl/forms/wTyrVgyrOigZ5b2E3",
+        "deadline": "2017-07-30",
+        "anuncio": "2017-08-03"
+    },
+    "inscricoes": {
+        "inicio": "2017-07-28",
+        "deadline": "2017-08-11",
+        "url": "https://goo.gl/forms/UZg3GSt31G7tP5SD3",
+        "vagas": 250,
+        "encerradas": false
+    }
+}
