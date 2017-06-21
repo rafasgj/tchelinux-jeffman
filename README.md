@@ -70,6 +70,6 @@ Faça _download_ das palestras no formato CSV (deixe que o Google Docs
 formate para você) e armazene o arquivo no diretório "data" com o nome
 "<codinome>.csv".
 
-Para gerar os arquivos "CNAME" e "index.html", execute o script:
+Para gerar o diretório do evento, execute: 
 
-	$ tchelinux-event.py <codinoe>
+	$ ./mkevent.sh <codinoe>
