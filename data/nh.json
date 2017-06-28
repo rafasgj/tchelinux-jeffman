@@ -1,36 +1,42 @@
 {
     "id": "nh",
-    "data": "2017-08-12",
-    "cidade": "Novo Hamburgo",
-    "instituicao": {
+    "date": "2017-08-12",
+    "city": "Novo Hamburgo",
+    "institution": {
+        "courses": [
+            {
+                "name": "Análise e Desenvolvimento de Sistemas",
+                "url": "https://www.ftec.com.br/graduacao/curso/Analise-e-Desenvolvimento-de-Sistemas"
+            }
+        ],
         "long_name": "FTEC Faculdades de Tecnologia",
         "short_name": "FTEC",
-        "endereco": "Rua Silveira Martins, 780 ",
+        "address": "Rua Silveira Martins, 780 ",
         "url": "http://www.ftec.com.br",
         "logo": "ftec.png",
         "latitude": -29.681352,
         "longitude":  -51.125599
     },
-    "patrocinadores": [
+    "sponsors": [
     ],
-    "apoio": [
+    "support": [
     ],
-    "salas" : [
-        { "numero": "1", "tema": "" },
-        { "numero": "2", "tema": "" },
-        { "numero": "3", "tema": "" },
-        { "numero": "4", "tema": "" }
+    "rooms" : [
+        { "number": "1", "subject": "" },
+        { "number": "2", "subject": "" },
+        { "number": "3", "subject": "" },
+        { "number": "4", "snebject": "" }
     ],
     "callForPapers": {
         "url": "https://goo.gl/forms/wTyrVgyrOigZ5b2E3",
         "deadline": "2017-07-30",
-        "anuncio": "2017-08-03"
+        "start": "2017-08-03"
     },
-    "inscricoes": {
-        "inicio": "2017-07-28",
+    "enrollment": {
+        "start": "2017-07-28",
         "deadline": "2017-08-11",
         "url": "https://goo.gl/forms/UZg3GSt31G7tP5SD3",
-        "vagas": 250,
-        "encerradas": false
+        "availability": 250,
+        "closed": false
     }
 }

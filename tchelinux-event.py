@@ -33,13 +33,14 @@ def load_lectures(eventfile):
     except:
         # Really, there's nothinng to do, but show it.
         print("Não encontrado dados de palestras para",eventfile,file=sys.stderr)
+        # TODO: test if call for papers is still open.
         print("Assumindo que a submissão de palestras não encerrou.",file=sys.stderr)
     return lectures
 
 def inscricoes(event):
     date = event['date']
-    fix_date('inscricoes:deadline',date-timedelta(days=1),event)
-    fix_date('inscricoes:inicio',date-timedelta(days=20),event)
+    fix_date('enrollment:deadline',date-timedelta(days=1),event)
+    fix_date('enrollment:start',date-timedelta(days=20),event)
     texto = """
         <p> O evento tem <b>entrada franca</b>, por&eacute;m os
         participantes s&atilde;o encorajados a doar 2kg de alimentos
@@ -51,30 +52,30 @@ def inscricoes(event):
     """
     before = """
         <p>As inscri&ccedil;&otilde;es para participação no evento
-        estarão abertas a partir do dia <b>{inscricoes[inicio_str]}</b>,
-        até o dia <b>{inscricoes[deadline_str]}</b>. Serão
-        disponibilizadas <b>{inscricoes[vagas]}</b> vagas para o
+        estarão abertas a partir do dia <b>{enrollment[start_str]}</b>,
+        até o dia <b>{enrollment[deadline_str]}</b>. Serão
+        disponibilizadas <b>{enrollment[availability]}</b> vagas para o
         evento.</p>
     """
     opened = """
         <p>As inscri&ccedil;&otilde;es para o evento estarão abertas até
-        o dia <b>{inscricoes[deadline_str]}</b>, ou até se esgotarem as
-        <b>{inscricoes[vagas]}</b> vagas.</p>
-        <p><b><a href='{inscricoes[url]}'>Inscreva-se agora!</a><b></p>
+        o dia <b>{enrolment[deadline_str]}</b>, ou até se esgotarem as
+        <b>{enrollment[availability]}</b> vagas.</p>
+        <p><b><a href='{enrollment[url]}'>Inscreva-se agora!</a><b></p>
         """
     after = """
-        <p>Cerca de <b>{resultado[participantes]}</b> participantes
+        <p>Cerca de <b>{result[attendants]}</b> participantes
         atenderam ao evento, onde foram arrecadados mais de
-        <b>{resultado[alimentos]} Kg</b> de alimentos.</p>"""
+        <b>{result[donations]} Kg</b> de alimentos.</p>"""
     closed="""
         <p><b>As inscri&ccedil;&otilde;es pelo site foram encerradas.
         Interessados poder&atilde;o fazer sua inscri&ccedil;&atilde;o no
         dia e local do evento, mediante disponibilidade de vagas.</b>
         </p>
         """
-    start_date = event['inscricoes']['inicio']
-    end_date = event['inscricoes']['inicio']
-    encerradas = event['inscricoes'].get('encerradas', False)
+    start_date = event['enrollment']['start']
+    end_date = event['enrollment']['deadline']
+    encerradas = event['enrollment'].get('closed', False)
     tdy = datetime.today()
     if date > datetime.today(): # se evento ainda nao se realizou...
         event['titulo_inscricoes'] = "Inscri&ccedil;&otilde;es"
@@ -89,7 +90,7 @@ def inscricoes(event):
         event['texto_inscricoes'] = texto + after.format(**event)
 
 def format_date(date):
-    if type(date) == str:
+    if type(date) != datetime:
         date = datetime.strptime(date,'%Y-%m-%d')
     return date, date.strftime("%d de %B de %Y")
 
@@ -101,35 +102,54 @@ def fix_date(path, default_date, event):
     f = l[-1]
     fd = d.setdefault(f, default_date)
     d[f], d[f+"_str"] = format_date(fd)
+    return d[f]
+
+def texto_cursos(event):
+    cursos = event['institution'].get('courses',None)
+    if cursos:
+        if len(cursos) == 1:
+            cursos_text = "o curso "
+        else:
+            cursos_text = "os cursos "
+        virgula = ""
+        for curso in cursos:
+            if 'url' in curso:
+                cursos_text += virgula + '<a href="{url}">{name}</a>'.format(**curso)
+            else:
+                cursos_text += curso['name']
+            virgula = ", e "
+    else:
+        cursos_text = 'a'
+    event['cursos'] = cursos_text + ", da"
 
 def load_config(eventfile):
     with open('data/'+eventfile+'.json','r') as config:
         event = json.load(config)
-        date = datetime.strptime(event['data'],'%Y-%m-%d')
-        event['date'] = date
+        date = fix_date('date', datetime.today()+timedelta(days=60),event)
         event['ano'] = date.year
         event['mes'] = date.month
         event['dia'] = date.day
-        event['data'] = date.strftime("%d de %B de %Y")
-        event['instituicao'].setdefault('short_name',event['instituicao']['long_name'])
-        if event['instituicao'].setdefault('diretorio',''):
-            event['instituicao']['artigo'] = 'o'
-            event['instituicao']['diretorio'] += ' da '
+        event['institution'].setdefault('short_name',event['institution']['long_name'])
+        if event['institution'].setdefault('diretorio',''):
+            event['institution']['artigo'] = 'o'
+            event['institution']['diretorio'] += ' da '
         else:
-            event['instituicao']['artigo'] = 'a'
-        if event['instituicao'].get('local_map',None):
+            event['institution']['artigo'] = 'a'
+        if event['institution'].get('local_map',None):
             event['local_map'] = """
                 <div id="local_map">
-                    <h4>Mapa da {instituicao[short_name]}</h4>
-                    <img src="images/{instituicao[local_map]}" alt="{instituicao[short_name]}" class="photo"/>
+                    <h4>Mapa da {institution[short_name]}</h4>
+                    <img src="images/{institution[local_map]}" alt="{institution[short_name]}" class="photo"/>
                 </div>""".format(**event)
         else:
             event['local_map'] = ''
 
+        fix_date('callForPapers:start',date-timedelta(days=30),event)
         fix_date('callForPapers:deadline',date-timedelta(days=15),event)
         ddate = event['callForPapers']['deadline']
-        fix_date('callForPapers:anuncio',ddate+timedelta(days=3),event)
+        fix_date('callForPapers:notice',ddate+timedelta(days=3),event)
         inscricoes(event)
+        texto_cursos(event)
     return event
 
 def create_CNAME(event):
@@ -156,14 +176,14 @@ def process_schedule(event, lectures):
                         <tr>
                             <th class="schedule-time">Hor&aacute;rio</th>
     """, file=indexpage)
-    rooms = event['salas']
+    rooms = event['rooms']
     roomcount = len(rooms)
-    for sala in event['salas']:
-        sala.setdefault('tema',"")
+    for sala in rooms:
+        sala.setdefault('subject',"")
         print ("""
             <th class="schedule-slot" colspan="1" style="text-align:center">
-                Sala {numero}<br/>
-                <small>{tema}</small>
+                Sala {number}<br/>
+                <small>{subject}</small>
             </th>""".format(**sala),file=indexpage)
     print('</tr>\n</thead>\n<tbody>',file=indexpage)
 
@@ -227,7 +247,7 @@ def process_abstracts(event,lectures):
         slot.sort(key=itemgetter(0))
         for kn in slot:
             print(template.format(**kn._asdict(),count=speech,time=k,
-                                  number=event['salas'][int(kn.room)-1]['numero']),
+                                  number=event['rooms'][int(kn.room)-1]['number']),
                                   file=indexpage)
             speech += 1
     print("</div>\n</section>",file=indexpage)
@@ -235,22 +255,22 @@ def process_abstracts(event,lectures):
 def process_support(event):
     support_item = """
         <li class="apoio-item">
-            <a href="{url}" title="{nome}" class="apoio-logo apoio-link">
-            <img src="images/{imagem}" alt="{short_name}" class="photo"/>
+            <a href="{url}" title="{long_name}" class="apoio-logo apoio-link">
+            <img src="images/{logo}" alt="{short_name}" class="photo"/>
             </a>
         </li>
     """
     with open('includes/support.inc','r') as f:
         data = f.read()
     sponsors = ""
-    for s in event.get('patrocinadores',[]):
+    for s in event.get('sponsors',[]):
         sponsors += support_item.format(**s)
     if sponsors:
         sponsors = '<h4>Patrocinio</h4><ul class="apoio-list">{s}</ul>'.format(s=sponsors)
     support = ""
     for s in event.get('apoio',[]):
         support += support_item.format(**s)
-    print(data.format(**event,sponsors=sponsors, support=support), file=indexpage)
+    print(data.format(**event,sponsor_list=sponsors, support_list=support), file=indexpage)
 
 def process_certificates(event):
     start = """
@@ -295,5 +315,3 @@ lectures = load_lectures(eventfile)
 create_CNAME(event)
 create_index_page(event,lectures)
 indexpage.close()
-
-#<p><a target="_blank" href="{inscricoes[url]}">Inscreva-se para o evento!</a></p>

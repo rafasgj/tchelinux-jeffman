@@ -1,55 +1,63 @@
 {
-    "id": "jeffman",
-    "data": "2017-06-15",
-    "cidade": "Santa Cruz",
-    "instituicao": {
-        "diretorio": "<a href=''></a> da",
+    "id": "santacruz",
+    "date": "2017-05-27",
+    "city": "Santa Cruz do Sul",
+    "institution": {
+        "courses":  [
+            { "name": "Engengaria da Computação", "url":"#" }
+        ],
         "long_name": "Universidade de Santa Cruz do Sul",
         "short_name": "UNISC",
-        "endereco": "Av. Independência, 2293",
+        "address": "Av. Independência, 2293",
         "url": "http://unisc.br",
         "logo": "images/UNISC.png",
         "latitude": -29.697987,
         "longitude": -52.438431
     },
-    "patrocinadores": [
+    "sponsors": [
         {
-            "nome": "Idealogic, Inc.",
+            "long_name": "Idealogic, Inc.",
             "short_name": "Idealogic, Inc.",
-            "imagem": "images/IDEALOGIC.png",
+            "logo": "images/IDEALOGIC.png",
             "url": "http://idealogic.com.br"
         },
         {
-            "nome": "Imply Corp.",
+            "long_name": "Imply Corp.",
             "short_name": "Imply Corp.",
-            "imagem": "images/IMPLY.png",
+            "logo": "images/IMPLY.png",
             "url": "http://imply.com.br"
         }
     ],
-    "apoio": [
+    "support": [
         {
-            "nome": "Diretório Acadêmico da Ciência da Computação",
+            "long_name": "Diretório Acadêmico da Ciência da Computação",
             "short_name": "DACOMP",
             "url": "http://dacomp.forumeiros.com/",
-            "imagem": "images/DACOMP.png"
+            "logo": "images/DACOMP.png"
         }
     ],
-    "salas" : [
-        { "numero": "1806", "tema": "" },
-        { "numero": "1807", "tema": "" },
-        { "numero": "1808", "tema": "" }
+    "rooms" : [
+        { "number": "1806", "subject": "" },
+        { "number": "1807", "subject": "" },
+        { "number": "1808", "subject": "" }
     ],
-    "inscricoes": {
-        "inicio": "2017-05-10`",
+    "callForPapers": {
+        "url": "https://goo.gl/forms/wTyrVgyrOigZ5b2E3",
+        "deadline": "2017-05-15",
+        "start": "2017-04-15"
+    },
+    "enrollment": {
+        "start": "2017-05-10",
         "deadline": "2017-06-12",
         "url": "https://goo.gl/forms/gdiu9s7bcC0faSWl2",
-        "vagas": 250,
-        "encerradas": false
+        "availability": 250,
+        "closed": false
     },
-    "resultado": {
-            "participantes": 100,
-            "alimentos": 140,
-            "palestras": 16,
-            "palestrantes": 11
+    "result": {
+        "donations": "160",
+        "attendants": "98",
+        "speaches": "15",
+        "speakers": "11"
     }
+
 }

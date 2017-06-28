@@ -19,8 +19,8 @@ Estas informações estão na raiz do arquivo de configuração:
 ```json
 {
     "id": "nh",
-    "data": "2017-08-12",
-    "cidade": "Novo Hamburgo",
+    "date": "2017-08-12",
+    "city": "Novo Hamburgo",
 }
 ```
 
@@ -43,7 +43,7 @@ short_name
 : Sigla, ou nome popular da instituição. Utilize um nome mais curto que
 seja oficial, e com a grafia correta. Este campo é opcional.
 
-endereco
+address
 : Endereço oficial da instituição.
 
 url
@@ -64,12 +64,11 @@ longitude
 : A longitude da entrada oficial da instituição. Veja as observações
 para a latitude.
 
-diretorio
-: Quando o evento tem apoio ou organização de um diretório acadêmico da
-instituição onde ocorrerá o evento, adicione este campo com o nome do
-diretório. Se houver uma URL do diretório acadêmico, adicione esta
-informação junto ao nome (utilizando a marcação de âncora HTML: A). Este
-campo é opcional.
+courses
+: Uma lista, opcional, de cursos que apóiam o evento, onde cada objeto
+da lista contém, obrigatoriamente, o campo _name_, representando o nome
+do curso, e, opcionalmente, o campo _url_, contendo a URL que direciona
+para a página com informações do curso.
 
 local_map
 : Caso exista uma imagem que mostra um mapa interno da instituição para
@@ -79,9 +78,12 @@ _images_, e o nome do arquivo neste campo. Este campo é opcional.
 ```json
 {
     "instituicao": {
+        "courses" : [
+            { "name": "Ciência da Computação" }
+        ],
         "long_name": "Universidade de Santa Cruz do Sul",
         "short_name": "UNISC",
-        "endereco": "Av. Independência, 2293",
+        "address": "Av. Independência, 2293",
         "url": "http://www.unisc.br",
         "logo": "UNISC.png",
         "latitude": -29.697987,
@@ -100,7 +102,7 @@ dos objetos são todos obrigatórios.
 
 Para cada objeto das listas, os seguintes campos devem ser preenchidos:
 
-nome
+name
 : Nome do apoiador/patrocinador.
 
 short_name
@@ -109,19 +111,19 @@ short_name
 url
 : A URL que leva para o site do apoiador/patrocinador.
 
-imagem
-: O nome do arquivo que contem a imagem do logotipo do apoiador/patrocinador.
-Esta imagem deve ser armazenada no diretório _images_.
+logo
+: O nome do arquivo que contem a imagem com o logotipo do apoiador ou
+patrocinador. Esta imagem deve ser armazenada no diretório _images_.
 
 ```json
 {
-    "patrocinadores": [],
-    "apoio": [
+    "sponsors": [],
+    "support": [
         {
             "nome": "Diretório Acadêmico da Ciência da Computação",
             "short_name": "DACOMP",
             "url": "http://dacomp.forumeiros.com/",
-            "imagem": "DACOMP.png"
+            "logo": "DACOMP.png"
         }
     ]
 }
@@ -146,18 +148,18 @@ para definir, posteriormente, a programação, sendo a primeira sala a
 sala de índice 1 na programação, a segunda a sala de índice 2, e assim
 por diante.
 
-O campo **numero** é obrigatório, e define o número que identifica a
-sala, dentro da instituição. O campo **tema**, é um campo opcional, que
-normalmente será preenchido, se necessário, quando da adição da
+O campo **number** é obrigatório, e define o número que identifica a
+sala, dentro da instituição. O campo **subject**, é um campo opcional,
+que normalmente será preenchido, se necessário, quando da adição da
 programação ao _hotsite_.
 
 ```json
 {
-    "salas" : [
-        { "numero": "C327", "tema": "Sysadmin e Cloud" },
-        { "numero": "C335", "tema": "Desenvolvimento e Marketing" },
-        { "numero": "C336", "tema": "Distribuições e Aplicações" },
-        { "numero": "C338", "tema": "Sistemas embarcados e IoT" }
+    "rooms" : [
+        { "number": "C327", "subject": "Sysadmin e Cloud" },
+        { "number": "C335", "subject": "Desenvolvimento e Marketing" },
+        { "number": "C336", "subject": "Distribuições e Aplicações" },
+        { "number": "C338", "subject": "Sistemas embarcados e IoT" }
     ]
 }
 ```
@@ -171,13 +173,16 @@ utilizando o Google Forms com um formato específico (veja o
 
 O objeto **callForPapers** é obrigatório, assim como o campo **url**,
 onde será adicionada a URL do formulário de submissão de palestras. Os
-campos **deadline** e **anuncio** são opcionais.
+campos **start**, **deadline** e **notice** são opcionais.
 
-O campo **deadline** marca o último dia que as propostas de palestras
-podem ser submetidas, e se não estiver presente, esta data será
-automaticamente definida para 15 dias antes do evento.
+Os campos **start** e **deadline** marcam o período no qual as propostas
+de palestras podem ser submetidas, e se não estiver presente, esta data
+serão automaticamente definida para 30 e 15 dias antes do evento,
+respectivamente.
 
-O campo **anuncio**, também é opcional, e marca a data que será dado
+> TODO: o campo _start_ ainda não está sendo utilizado.
+
+O campo **notice**, também é opcional, e marca a data em que será dado
 retorno aos palestrantes sobre o aceite de suas propostas de palestras.
 Esta data, se não for definida no arquivo de configuração, é
 automaticamente definida para 3 dias após o encerramento da submissão
@@ -187,8 +192,9 @@ de propostas.
 {
     "callForPapers": {
         "url": "https://goo.gl/forms/wTyrVgyrOigZ5b2E3",
+        "start": "2017-07-10",
         "deadline": "2017-07-30",
-        "anuncio": "2017-08-03"
+        "notice": "2017-08-03"
     }
 }
 ```
@@ -202,26 +208,27 @@ utilizado para a obtenção do certificado digital de participação.
 
 A configuração das inscrições para a geração do _hotsite_ do evento é
 obrigatória. A **url** deve ser a URL do formulário de inscrição no
-evento. O número de vagas é definido no campo **vagas**. Os dois campos
-são obrigatórios.
+evento. O número de vagas é definido no campo **availability**. Os dois
+campos são obrigatórios.
 
-Os campos opcionais **inicio**, **deadline** e **encerradas** definem
+Os campos opcionais **start**, **deadline** e **closed** definem
 como o _hotsite_ irá mostrar o estado das incrições. Os campos
-**inicio** e **deadline**, cotém datas no formato _YYYY-mm-dd_, que
+**start** e **deadline**, cotém datas no formato _YYYY-mm-dd_, que
 marcam a data de início e fim das inscrições.
 
-O campo **encerradas**, contém um dos valores _true_ ou _false_, e marca
-se as incrições estão abertas ou não. Este campo só é avaliado dentro do
-período de inscrições. Caso não seja definido, o campo **encerradas**
-contém o valor _false_, significando que o estado das inscrições
-dependem, exclusivamente, do período de inscrições definido.
+O campo **closed**, contém um dos valores _true_ ou _false_, e marca
+se as incrições estão fechadas (encerradas) ou não. Este campo só é
+avaliado dentro do período de inscrições. Caso não seja definido, o
+campo **closed** contém o valor _false_, significando que o estado
+das inscrições dependem, exclusivamente, do período de inscrições
+definido.
 
 O campo **deadline**, se não definido, recebe o mesmo valor do dia
 anterior ao evento. As inscrições realizadas no dia do evento devem ser
 realizadas à parte. O link para as inscrições no _hotsite_ só será
 exibido se o dia de geração for anterior a esta data.
 
-O campo **inicio**, se não definido, recebe como valor padrão a data
+O campo **start**, se não definido, recebe como valor padrão a data
 relativa a 20 dias antes do evento. O link para as inscrições no
 _hotsite_ só será exibido se o dia de geração for posterior a esta data.
 
@@ -229,10 +236,10 @@ _hotsite_ só será exibido se o dia de geração for posterior a esta data.
 {
     "inscricoes": {
         "url": "https://goo.gl/forms/gdiu9s7bcC0faSWl2",
-        "vagas": 300,
-        "inicio": "2017-07-28`",
+        "availability": 300,
+        "start": "2017-07-28`",
         "deadline": "2017-05-28",
-        "encerradas": false
+        "closed": false
     }
 }
 ```
@@ -245,43 +252,35 @@ Novo Hamburgo, em 2017, quando da abertura da chamada de trabalhos.
 ```json
 {
     "id": "nh",
-    "data": "2017-08-12",
-    "cidade": "Novo Hamburgo",
-    "instituicao": {
+    "date": "2017-08-12",
+    "city": "Novo Hamburgo",
+    "institution": {
         "long_name": "FTEC Faculdades de Tecnologia",
         "short_name": "FTEC",
-        "endereco": "Rua Silveira Martins, 780 ",
+        "address": "Rua Silveira Martins, 780",
         "url": "http://www.ftec.com.br",
         "logo": "ftec.png",
-        "latitude": -29.681352,
-        "longitude":  -51.125599
+        "latitude":  -29.681352,
+        "longitude": -51.125599
     },
-    "patrocinadores": [
-    ],
-    "apoio": [
-    ],
-    "salas" : [
-        { "numero": "1" },
-        { "numero": "2" },
-        { "numero": "3" },
+    "sponsors": [],
+    "support": [],
+    "rooms" : [
+        { "number": "1" },
+        { "number": "2" },
+        { "number": "3" },
     ],
     "callForPapers": {
         "url": "https://goo.gl/forms/wTyrVgyrOigZ5b2E3",
         "deadline": "2017-07-30",
-        "anuncio": "2017-08-03"
+        "notice": "2017-08-03"
     },
-    "inscricoes": {
-        "início": "2017-07-25`",
+    "enrollment": {
+        "start": "2017-07-25",
         "deadline": "2017-08-12",
         "url": "https://goo.gl/forms/UZg3GSt31G7tP5SD3",
-        "vagas": 250,
-        "encerradas": false
-    },
-    "resultado": {
-            "participantes": 0,
-            "alimentos": 0,
-            "palestras": 0,
-            "palestrantes": 0
+        "availability": 250,
+        "closed": false
     }
 }
 ```

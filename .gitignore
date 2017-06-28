@@ -1,8 +1,9 @@
+# Ignorar imagens dos eventos, mas nao ignorar imagem do Tux Gauderio.
 /images/*
 !/images/tchelinux.png
-CNAME
-index.html
 
+# Codinome de teste.
+/config/
 # Codinomes usuais de eventos.
 /poa/
 /pelotas/
