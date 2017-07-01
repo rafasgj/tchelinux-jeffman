@@ -59,7 +59,7 @@ def inscricoes(event):
     """
     opened = """
         <p>As inscri&ccedil;&otilde;es para o evento estarão abertas até
-        o dia <b>{enrolment[deadline_str]}</b>, ou até se esgotarem as
+        o dia <b>{enrollment[deadline_str]}</b>, ou até se esgotarem as
         <b>{enrollment[availability]}</b> vagas.</p>
         <p><b><a href='{enrollment[url]}'>Inscreva-se agora!</a><b></p>
         """
