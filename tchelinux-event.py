@@ -147,7 +147,7 @@ def load_config(eventfile):
         fix_date('callForPapers:start',date-timedelta(days=30),event)
         fix_date('callForPapers:deadline',date-timedelta(days=15),event)
         ddate = event['callForPapers']['deadline']
-        fix_date('callForPapers:notice',ddate+timedelta(days=3),event)
+        fix_date('callForPapers:notification',ddate+timedelta(days=3),event)
         inscricoes(event)
         texto_cursos(event)
     return event
