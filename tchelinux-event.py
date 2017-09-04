@@ -233,8 +233,9 @@ def process_schedule(event, lectures):
             print('<tr class="schedule-other">',file=indexpage)
             print('<td class="schedule-time">{time}</td>'.format(time=k),file=indexpage)
             for entry in slot:
+                level = entry.level.strip()
                 print(template_lecture.format(**entry._asdict(),count=speech,
-                                              label=labels[entry.level if entry.level else "all"]),
+                                              label=labels[level if level else "all"]),
                                               file=indexpage)
                 speech += 1
             print("</tr>",file=indexpage)
