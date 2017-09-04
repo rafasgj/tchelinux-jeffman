@@ -1,4 +1,4 @@
-Como utilizar o sistema
+ Como utilizar o sistema
 =======================
 
 ## 1. Obtendo o cógido fonte
@@ -12,7 +12,7 @@ Clone o repositório:
 Crie um formulário no Google Docs com os campos das palestras na
 seguinte ordem:
 
-	* Nome do Palestrante
+1	* Nome do Palestrante
 	* Titulo da Palestra
 	* Resumo da Palestra
 	* Palavras-chave
@@ -28,7 +28,7 @@ permitir futuras extensões.
 
 Os nomes dos campos não são relevantes para o sistema, mas auxiliam na
 edição e verificação dos dados, portanto, sugere-se utilizar a mesma
-nomenclatura.
+nomenclatura. A ordem dos campos é relevante e não deve ser modificada.
 
 ## 3. Crie o formulário de inscrições
 
@@ -54,6 +54,20 @@ fechamento do _Call for Papers_ e conterá o índice da sala na qual a
 palestra será realizada. Este índice não é o número real da sala no
 evento, mas o índice da sala na grade (1, 2, 3, ...).
 
+Após esta configuração, os campos devem ter a seguinte ordem:
+
+	* Timestamp
+	* Sala
+	* Nome do Palestrante
+	* Titulo da Palestra
+	* Resumo da Palestra
+	* Palavras-chave
+	* Nível de Experiência Esperado
+	* Mini-currículo do Palestrante
+	* Tema da Palestra
+	* Email do Palestrante
+	* Telefone do Palestrante
+
 Devem ser adicionadas, na lista de palestras, as descrições para a
 abertura e encerramento do evento, assim como intervalo de almoço e
 _coffe break_. A abertura do evento deve ter **abertura** como
@@ -70,6 +84,6 @@ Faça _download_ das palestras no formato CSV (deixe que o Google Docs
 formate para você) e armazene o arquivo no diretório "data" com o nome
 "<codinome>.csv".
 
-Para gerar o diretório do evento, execute: 
+Para gerar o diretório do evento, execute:
 
 	$ ./mkevent.sh <codinoe>
