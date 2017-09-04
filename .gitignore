@@ -2,6 +2,11 @@
 /images/*
 !/images/tchelinux.png
 
+# Ignorar dados de eventos, man nao igonar exemplo de dados.
+/data/*
+!/data/config.json
+!/data/config.csv
+
 # Codinome de teste.
 /config/
 # Codinomes usuais de eventos.
