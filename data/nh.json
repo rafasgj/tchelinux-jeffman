@@ -31,220 +31,22 @@
     }, 
     "rooms": [
         {
-            "number": "Sala 1", 
+            "number": "1", 
             "subject": ""
         }, 
         {
-            "number": "Sala 2", 
+            "number": "2", 
             "subject": ""
         }, 
         {
-            "number": "Sala 3", 
+            "number": "3", 
             "subject": ""
         }
     ], 
-    "schedule": {
-        "08:30": [
-            {
-                "abstract": "", 
-                "author": "", 
-                "keywords": "credenciamento", 
-                "level": "", 
-                "resume": "", 
-                "room": "", 
-                "title": "Credenciamento"
-            }
-        ], 
-        "09:00": [
-            {
-                "abstract": "", 
-                "author": "Leonardo Vaz", 
-                "keywords": "abertura", 
-                "level": "", 
-                "resume": "", 
-                "room": "", 
-                "title": "Abertura"
-            }
-        ], 
-        "09:30": [
-            {
-                "abstract": "apresenta\u00e7\u00e3o do qemu/kvm e demostra\u00e7\u00e3o do virt-manager", 
-                "author": "Daniel Lara", 
-                "keywords": "linux , virtualiza\u00e7\u00e3o ", 
-                "level": "Principiante", 
-                "resume": "Sysadmin ,us\u00e1rio de GNU/Linux a 12 anos, Embaixador do Projeto Fedora no Brasil, Coordenador do time de tradu\u00e7\u00e3o do pt_BR do fedora, Empacotador do Fedora, Faz parte da Equipe de moderadores do Viva o Linux, e tem vida social.  ", 
-                "room": "1", 
-                "title": "Virtualiza\u00e7\u00e3o para Usu\u00e1rios "
-            }, 
-            {
-                "abstract": "        Esta Palestra tem como objetivo mostrar a instala\u00e7\u00e3o e configura\u00e7\u00e3o Raspberry pi \u2013 Linux Jessie \u2013 MINI. Este sistema faz com que seja o Kernel do Linux utilizado para sua funcionalidade  com este tipo hardware que \u00e9 um \u201cmini computador\u201d.  Aqui vamos conhecer  uma instala\u00e7\u00e3o do \"SO\" estudar outros tipos  de modelos compat\u00edveis e seus softwares respectivamente.", 
-                "author": "Ercio Luis Dorneles Berna", 
-                "keywords": "Raspberry pi", 
-                "level": "Principiante", 
-                "resume": "Profissional na \u00e1rea de T.I e Analista de Infraestrutura - Entusiasta Linux, Professor Educador, formado em Licenciatura em computa\u00e7\u00e3o 2009/1 Universidade Feevale. Desenvolve projetos de Data center em Linux, com Centos ou Ubuntu Server desde 2009, experi\u00eancia com Linux 7 anos, Experiencia com Raspberry Pi. Palestrante em eventos Festival Latino Americano de Software Livre - Feevale - NH.- RS -Tche Linux - Ftec NH-RS  - Fils 17 - PUC \u2013 ASL -Porto Alegre - RS e outros. Autor de Livro de Linux.", 
-                "room": "2", 
-                "title": "Instala\u00e7\u00e3o e configura\u00e7\u00e3o do Raspberry pi - Uso de software Livre Debian Jessie 8."
-            }, 
-            {
-                "abstract": "Uma palestra de provoca\u00e7\u00e3o para que a plat\u00e9ia pense sobre como ensinamos software hoje e como dever\u00edamos estar ensinando amanh\u00e3, se quisermos que mais pessoas se interessem por programa\u00e7\u00e3o (e porque isso \u00e9 importante para o futuro).", 
-                "author": "Luiz Fernando Duarte Junior", 
-                "keywords": "Node.js", 
-                "level": "Principiante", 
-                "resume": "Luiz Fernando Duarte Junior \u00e9 graduado em Ci\u00eancia da Computa\u00e7\u00e3o e p\u00f3s-graduado em Computa\u00e7\u00e3o M\u00f3vel. Empreendedor, autor de livros de programa\u00e7\u00e3o e professor do ensino superior, trabalha h\u00e1 11 anos com programa\u00e7\u00e3o nas mais variadas plataformas e tecnologias e atualmente \u00e9 evangelista t\u00e9cnico na Umbler.", 
-                "room": "3", 
-                "title": "Por que Stanford trocou Java por Node.js?"
-            }
-        ], 
-        "10:30": [
-            {
-                "abstract": "Mostrar que PHP, uma das linguagens mais utilizada na Web tamb\u00e9m pode ser usada para comunica\u00e7\u00e3o com dispositivos. Nesta apresenta\u00e7\u00e3o \u00e9 mostrado o quadric\u00f3ptero AR Drone e suas funcionalidades e poss\u00edveis formas de control\u00e1-lo. Ser\u00e1 dada uma breve introdu\u00e7\u00e3o sobre a biblioteca ReactPHP, que possibilita desenvolver com PHP ass\u00edncrono e alguns projetos baseados na mesma. Tamb\u00e9m como \u00e9 poss\u00edvel controlar um AR Drone utilizando o projeto PHP-ARDrone desenvolvido com base na biblioteca ReactPHP, e ser\u00e1 demonstrado o drone sendo controlado atrav\u00e9s de scripts PHP, tando programando para que o drone seja aut\u00f4nomo quanto com intera\u00e7\u00e3o em tempo real. ", 
-                "author": "Fernando Silva", 
-                "keywords": "php, drone, ReactPHP", 
-                "level": "Intermediario", 
-                "resume": "Analista de Desenvolvimento na KingHost, graduado em An\u00e1lise e Desenvolvimento de Sistemas (ADS) pela Faculdade Senac Porto Alegre, onde ganhou o Pr\u00eamio Keller de melhor trajet\u00f3ria acad\u00eamica. Atualmente faz p\u00f3s-gradua\u00e7\u00e3o em Seguran\u00e7a Cibern\u00e9tica pela UFGRS, al\u00e9m disso, \u00e9 um dos coordenadores da comunidade PHP-RS, \u00e9 entusiasta Open Source e Software Livre.", 
-                "room": "2", 
-                "title": "Controlando AR Drone com PHP"
-            }, 
-            {
-                "abstract": "O tema Computa\u00e7\u00e3o em Nuvem \u00e9 vastamente usado nos dias de hoje, todavia se trata de um conceito um tanto abstrato para muitas pessoas. Nesta apresenta\u00e7\u00e3o ser\u00e3o abordados os principais componentes de solu\u00e7\u00f5es de Computa\u00e7\u00e3o em Nuvem, conceitos b\u00e1sicos como IaaS, PaaS e SaaS, e tamb\u00e9m os principais projetos de Open Source Cloud como Openstack, Openshift entre outros. ", 
-                "author": "Leonardo Vaz", 
-                "keywords": "Cloud, PaaS, IaaS, SaaS", 
-                "level": "Principiante", 
-                "resume": "Leonardo Vaz teve seu primeiro contato com o Software Livre no final de 1998, quando instalou o Red Hat Linux 5.1 no seu antigo PC, e no \u00faltimos 19 anos tem participado da comunidade Brasileira. Atualmente trabalha com Sistemas de Arquivos Distribu\u00eddos no time de Engenharia de Suporte da Red Hat. ", 
-                "room": "1", 
-                "title": "Tudo o que voc\u00ea sempre quis saber sobre Open Source Cloud Computing, mas tinha medo de perguntar!"
-            }, 
-            {
-                "abstract": "Um problema comum aos que est\u00e3o iniciando suas contribui\u00e7\u00e3o a projetos de software livre \u00e9 o fato destes na maior parte do tempo possuirem o c\u00f3digo armazenado em reposit\u00f3rios git. O git \u00e9 um sistema de controle de revisionamento notoriamente n\u00e3o muito amig\u00e1vel. Nesta palestra vou dar uma vis\u00e3o geral dos comandos do git e como n\u00e3o utilizar o m\u00e9todo XKCD (https://xkcd.com/1597/). Tamb\u00e9m quero falar brevemente sobre como usar as ferramentas do Github para um melhor trabalho colaborativo.", 
-                "author": "Fabio Utzig", 
-                "keywords": "git opensource vcs", 
-                "level": "Intermediario", 
-                "resume": "Fabio Utzig \u00e9 desenvolvedor de software a 15 anos, atua primariamente na \u00e1rea de sistemas embarcados, \u00e9 um dos mantenedores do sistema operacional de c\u00f3digo aberto para microcontroladores ChibiOS/RT desde 2011, atualmente trabalhando para a empresa americana Runtime.io no desenvolvimento do sistema operacional para IoT Apache Mynewt e do bootloader para microcontroladores mcuboot.", 
-                "room": "3", 
-                "title": "Usando git eficientemente"
-            }
-        ], 
-        "11:30": [
-            {
-                "abstract": "", 
-                "author": "", 
-                "keywords": "intervalo", 
-                "level": "", 
-                "resume": "", 
-                "room": "", 
-                "title": "Intervalo de Almo\u00e7o"
-            }
-        ], 
-        "13:00": [
-            {
-                "abstract": "Escrever testes \u00e9 uma pr\u00e1tica comum no desenvolvimento de software. Mas estamos escrevendo testes de forma errada. E eu vou explicar o que h\u00e1 de errado na forma de ver unit testes hoje em dia.", 
-                "author": "Julio Biason", 
-                "keywords": "unit test, testes, desenvolvimento", 
-                "level": "Intermediario", 
-                "resume": "Julio programa desde os 12 e descobriu a efic\u00e1cia dos testes em 2007. Desde ent\u00e3o tem procurado aprender a forma correta de se escrever testes.", 
-                "room": "3", 
-                "title": "O \"Unit\" de \"Unit tests\""
-            }, 
-            {
-                "abstract": "Nesta palestra, ser\u00e1 realizada uma introdu\u00e7\u00e3o \u00e0 programa\u00e7\u00e3o com a biblioteca OpenCV, utilizando a linguagem de programa\u00e7\u00e3o Python. Ser\u00e3o estudados diversos exemplos, at\u00e9 que seja constru\u00edda uma aplica\u00e7\u00e3o para reconhecimento de faces em v\u00eddeo.", 
-                "author": "Rafael Guterres Jeffman", 
-                "keywords": "OpenCV, Python ", 
-                "level": "Intermediario", 
-                "resume": "Professor das disciplinas de algoritmos na Faculdade SENAC Porto Alegre, mestre em Computa\u00e7\u00e3o Aplicada pela Unisinos,  fot\u00f3grafo e desenevolvedor, est\u00e1 envolvido com software livre desde o s\u00e9culo passado (1998) e ajuda na coordena\u00e7\u00e3o e organiza\u00e7\u00e3o do TcheLinux desde seu retorno no evento do IPA em 2006.", 
-                "room": "2", 
-                "title": "Vis\u00e3o computacional com OpenCV"
-            }, 
-            {
-                "abstract": "Esta palestra busca apresentar, para quem tem pressa, como utilizar os recursos mais elementares das express\u00f5es regulares e sua aplica\u00e7\u00e3o.", 
-                "author": "Jo\u00e3o Avelino Bellomo Filho", 
-                "keywords": "sed,regex,grep,shell", 
-                "level": "Principiante", 
-                "resume": "Tecn\u00f3logo em Processamento de Dados pela UCPel, Mestre em Ci\u00eancia da Computa\u00e7\u00e3o pela UFRGS. Ministrou aulas na UCPel e Faculdade SENAC Porto Alegre. Atualmente \u00e9 Software Maintenance Engineer na Red Hat especializado em redes.", 
-                "room": "1", 
-                "title": "Express\u00f5es Regulares"
-            }
-        ], 
-        "14:00": [
-            {
-                "abstract": "Voltada para todos os tipos de p\u00fablico, \u00e9 uma apresenta\u00e7\u00e3o / compara\u00e7\u00e3o sobre as tecnologias atuais em rela\u00e7\u00e3o \u00e0s dispon\u00edveis h\u00e1 10 ou 15 anos atr\u00e1s. Distribui\u00e7\u00f5es de Software, configura\u00e7\u00e3o de hardware, programas, redes sociais: o quanto isso pode mudar em 15 anos? ", 
-                "author": "Fabio Beneditto", 
-                "keywords": "tecnologia, linux", 
-                "level": "Principiante", 
-                "resume": "Entusiasta de Software Livre desde 1999, graduado em Sistemas para Internet na Feevale, Desenvolvedor Web, volunt\u00e1rio no SUMO (Suporte Mozilla). Defende o uso de padr\u00f5es abertos na Internet. Aprecia muito PHP e JavaScript, assim como Postgresql.", 
-                "room": "2", 
-                "title": "...porque no MEU TEMPO: Comparativo entre algumas tecnologias atuais com 10+ anos atr\u00e1s"
-            }, 
-            {
-                "abstract": "Nesta apresenta\u00e7\u00e3o ser\u00e1 demonstrada solu\u00e7\u00f5es e tecnologias utilizadas para desenvolver um mecanismo de busca, focado em disponibilizar uma ferramenta que possibilite indexar uma grande quantidade de dados e a realiza\u00e7\u00e3o de busca otimizada dos mesmos. Para isso ser\u00e1 abordado conceitos como Web Crawler, armazenamento de dados em banco n\u00e3o relacional utilizando Elasticsearch, e como tudo isso pode ser desenvolvido utilizando PHP. Tamb\u00e9m ser\u00e1 abordado como ferramentas open source como Elasticsearch ou ainda toda stack Elastic podem ajudar e facilitar no desenvolvimento de solu\u00e7\u00f5es, utilizando qualquer linguagem de programa\u00e7\u00e3o, como neste caso PHP.", 
-                "author": "Fernando Silva", 
-                "keywords": "php, Elasticsearch, open source", 
-                "level": "Intermediario", 
-                "resume": "Analista de Desenvolvimento na KingHost, graduado em An\u00e1lise e Desenvolvimento de Sistemas (ADS) pela Faculdade Senac Porto Alegre, onde ganhou o Pr\u00eamio Keller de melhor trajet\u00f3ria acad\u00eamica. Atualmente faz p\u00f3s-gradua\u00e7\u00e3o em Seguran\u00e7a Cibern\u00e9tica pela UFGRS, al\u00e9m disso, \u00e9 um dos coordenadores da comunidade PHP-RS, \u00e9 entusiasta Open Source e Software Livre.", 
-                "room": "3", 
-                "title": "Desenvolvendo um buscador com PHP e Elasticsearch "
-            }, 
-            {
-                "abstract": "Ceph \u00e9 um sistema de arquivos distribu\u00eddo projetado para ter excelente desempenho, confiabilidade e escalabilidade. Nesta palestra ser\u00e1 abordada a arquitetura do Ceph e tamb\u00e9m seus principais casos de uso. ", 
-                "author": "Leonardo Vaz", 
-                "keywords": "Ceph, Software Defined Storage", 
-                "level": "Intermediario", 
-                "resume": "Leonardo Vaz teve seu primeiro contato com o Software Livre no final de 1998, quando instalou o Red Hat Linux 5.1 no seu antigo PC, e no \u00faltimos 19 anos tem participado da comunidade Brasileira. Atualmente trabalha com Sistemas de Arquivos Distribu\u00eddos no time de Engenharia de Suporte da Red Hat. ", 
-                "room": "1", 
-                "title": "Introdu\u00e7\u00e3o ao Ceph "
-            }
-        ], 
-        "15:00": [
-            {
-                "abstract": "", 
-                "author": "", 
-                "keywords": "intervalo", 
-                "level": "", 
-                "resume": "", 
-                "room": "", 
-                "title": "Coffe-Break"
-            }
-        ], 
-        "15:30": [
-            {
-                "abstract": "O objetivo da palestra \u00e9 expor os benef\u00edcios e aplicabilidades do uso do Samba4, um conjunto de protocolos que cria um sistema de gerenciamento de identidade e seguran\u00e7a para dom\u00ednios, totalmente livre e gratuita e pode ser instalada em qualquer distribui\u00e7\u00e3o Linux. Permite criar redes com gerenciamento centralizado semelhante as redes Windows com Active Directory.", 
-                "author": "Eduardo Mozart de Oliveira", 
-                "keywords": "Active Directory, Samba4, DNS, Kerberos, Winbind", 
-                "level": "Intermediario", 
-                "resume": "Analista de Suporte T\u00e9cnico na Prefeitura Municipal de S\u00e3o Leopoldo/Secretaria Municipal de Educa\u00e7\u00e3o (SMED). Atuou como Administrador de sistemas no 16\u00ba Grupo de Artilharia de Campanha Autopropulsado de S\u00e3o Leopoldo, administrando 119 computadores em uma estrutura Active Directory implementada com Samba4. Colaborador do projeto CID, que visa desenvolver interface gr\u00e1fica para esta\u00e7\u00f5es ingressarem a dom\u00ednios Active Directory. Cursando Gest\u00e3o da Tecnologia da Informa\u00e7\u00e3o na IERGS e T\u00e9cnico em Inform\u00e1tica pela IENH. Cursos de extens\u00e3o realizados na \u00e1rea: Administra\u00e7\u00e3o de Servidores Linux I, II e III com Marcelo Dieder, Administrador de Redes Linux e Administrador de Redes Windows I e II (Informatize) e Linux - Servi\u00e7os de Seguran\u00e7a pelo 1\u00ba Centro de Telem\u00e1tica de \u00c1rea (Ex\u00e9rcito Brasileiro).  ", 
-                "room": "1", 
-                "title": "Samba4 - Uma alternativa opensource ao Active Directory"
-            }, 
-            {
-                "abstract": "Docker tem se tornado uma tecnologia padr\u00e3o para times \u00e1geis, facilitando cada vez mais a entrega de novos produtos ou features. Com ele \u00e9 poss\u00edvel melhorar seus processos de deploy, atrav\u00e9s dessa apresenta\u00e7\u00e3o poderemos entender como \u00e9 poss\u00edvel utilizar o Docker Swarm para gerenciar suas aplica\u00e7\u00f5es, e principalmente, como realizar um processo de deploy com maior seguran\u00e7a e qualidade.", 
-                "author": "Cristiano dos Santos Diedrich", 
-                "keywords": "Docker, Deploy, Docker Swarm, Deployment, Blue-Green Deployment", 
-                "level": "Intermediario", 
-                "resume": "Formado em sistemas de informa\u00e7\u00e3o, trabalho atualmente como container specialyst na Umbler, uma startup de hosting sob demanda, atuo na pesquisa e desenvolvimento de solu\u00e7\u00f5es para hosting e PaaS. Sou apaixonado por linux e tecnologias open-source, \u00e1reas que conhe\u00e7o a mais de 10 anos.", 
-                "room": "3", 
-                "title": "Blue-Green Deployment with Docker Swarm"
-            }, 
-            {
-                "abstract": "Porque faz sentido ajudar em projetos open source e como come\u00e7ar a participar", 
-                "author": "Julio Biason", 
-                "keywords": "coopera\u00e7\u00e3o, open source, ", 
-                "level": "Principiante", 
-                "resume": "Julio Biason foi apresentado ao mundo do open source em 2000 e desde ent\u00e3o tem participado como pode de v\u00e1rios projetos.", 
-                "room": "2", 
-                "title": "Por que e Como Participar de Projetos Open Source"
-            }
-        ], 
-        "16:30": [
-            {
-                "abstract": "", 
-                "author": "Rafael Guterres Jeffman", 
-                "keywords": "encerramento", 
-                "level": "", 
-                "resume": "", 
-                "room": "", 
-                "title": "Painel: Software Livre e o Mercado de Trabalho"
-            }
-        ]
-    }, 
-    "sponsors": [], 
-    "support": []
+    "support": [],
+    "sponsors": [],
+    "result": {
+        "attendants": "65",
+        "donations": "60"
+    }
 }
