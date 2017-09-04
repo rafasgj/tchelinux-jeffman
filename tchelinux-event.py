@@ -5,6 +5,7 @@ from collections import namedtuple
 from operator import itemgetter
 import json
 import csv
+import string
 
 import locale
 locale.setlocale(locale.LC_TIME,'pt_BR')
@@ -27,12 +28,13 @@ def load_lectures(eventfile):
         with open('data/%s.csv'%eventfile) as csvfile:
             lectures = {}
             for row in csv.reader(csvfile):
-                if 'Timestamp' == row[0]: continue
+                if not row[0].strip() or len(set(row[0]) & set(string.ascii_letters)) > 0:
+                    continue
                 p = Lecture(*row[1:8])
                 lectures.setdefault(row[0],[]).append(p)
-    except:
+    except Exception as e:
         # Really, there's nothinng to do, but show it.
-        print("Não encontrado dados de palestras para",eventfile,file=sys.stderr)
+        print("Não encontrados dados de palestras para",eventfile,file=sys.stderr)
         # TODO: test if call for papers is still open.
         print("Assumindo que a submissão de palestras não encerrou.",file=sys.stderr)
     return lectures
@@ -163,8 +165,11 @@ def process_schedule(event, lectures):
     labels = {
         "all":'<span class="label label-info">Todo o Público</span>',
         "Principiante":'<span class="label label-success">Principiante</span>',
+        "Iniciante":'<span class="label label-success">Principiante</span>',
         "Intermediario":'<span class="label label-warning">Intermediário</span>',
-        "Avancado":'<span class="label label-danger">Avançado</span>'
+        "Intermediário":'<span class="label label-warning">Intermediário</span>',
+        "Avancado":'<span class="label label-danger">Avançado</span>',
+        "Avançado":'<span class="label label-danger">Avançado</span>'
     }
     print("""
     <section id="programacao">
@@ -193,7 +198,7 @@ def process_schedule(event, lectures):
             <td class="schedule-slot" colspan="{span}" style="text-align:center">
                 {title}<br/>
                 {label}<br/>
-                <span class="speaker">{author}</span>
+                <span class="speaker">{effective_author}</span>
             </td>
         </tr>
         """
@@ -208,6 +213,7 @@ def process_schedule(event, lectures):
     """
     speech = 1
     for k in sorted(lectures):
+        if k == '': continue
         slot = lectures[k]
         if len(slot) == 1:
             kn = slot[0]
@@ -218,7 +224,8 @@ def process_schedule(event, lectures):
             elif kn.keywords == "encerramento":
                 label = labels['all']
                 author = 'Moderador: ' + author
-            print (template_other.format(time=k,span=roomcount,
+            print (template_other.format(effective_author=author,
+                                         time=k,span=roomcount,
                                          label=label, **kn._asdict()),
                                          file=indexpage)
         else:
@@ -227,7 +234,7 @@ def process_schedule(event, lectures):
             print('<td class="schedule-time">{time}</td>'.format(time=k),file=indexpage)
             for entry in slot:
                 print(template_lecture.format(**entry._asdict(),count=speech,
-                                              label=labels[entry.level]),
+                                              label=labels[entry.level if entry.level else "all"]),
                                               file=indexpage)
                 speech += 1
             print("</tr>",file=indexpage)
@@ -242,14 +249,22 @@ def process_abstracts(event,lectures):
     """,file=indexpage)
     speech = 1
     for k in sorted(lectures):
+        if k == '': continue
         slot = lectures[k]
         if len(slot) == 1: continue
         slot.sort(key=itemgetter(0))
         for kn in slot:
-            print(template.format(**kn._asdict(),count=speech,time=k,
-                                  number=event['rooms'][int(kn.room)-1]['number']),
-                                  file=indexpage)
-            speech += 1
+            if kn.room == '': continue
+            try:
+                print(template.format(**kn._asdict(),count=speech,time=k,
+                                      number=event['rooms'][int(kn.room)-1]['number']),
+                                      file=indexpage)
+                speech += 1
+            except:
+                print(kn)
+                print("Error reading JSON data.")
+                raise Exception("Unexected error.")
+
     print("</div>\n</section>",file=indexpage)
 
 def process_support(event):
