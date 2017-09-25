@@ -263,7 +263,7 @@ footer {
 }
 
 .apoio-list {
-    height: 250px;
+    min-height: 250px;
 }
 
 .apoio-item > a {
