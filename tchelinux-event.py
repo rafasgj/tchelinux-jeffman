@@ -284,7 +284,7 @@ def process_support(event):
     if sponsors:
         sponsors = '<h4>Patrocinio</h4><ul class="apoio-list">{s}</ul>'.format(s=sponsors)
     support = ""
-    for s in event.get('apoio',[]):
+    for s in event.get('support',[]):
         support += support_item.format(**s)
     print(data.format(**event,sponsor_list=sponsors, support_list=support), file=indexpage)
 
