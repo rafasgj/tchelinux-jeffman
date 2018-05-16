@@ -22,7 +22,7 @@ def include_file(filename):
         return f.read()
 
 
-def load_lectures(eventfile):
+def load_lectures(event, eventfile):
     lectures = None
     try:
         with open('data/%s.csv'%eventfile) as csvfile:
@@ -36,7 +36,10 @@ def load_lectures(eventfile):
         # Really, there's nothinng to do, but show it.
         print("Não encontrados dados de palestras para",eventfile,file=sys.stderr)
         # TODO: test if call for papers is still open.
-        print("Assumindo que a submissão de palestras não encerrou.",file=sys.stderr)
+        today = datetime.today()
+        if event['callForPapers'].get('deadline', today) > today:
+            msg = "Assumindo que a submissão de palestras não encerrou."
+            print(msg,file=sys.stderr)
     return lectures
 
 def inscricoes(event):
@@ -327,7 +330,7 @@ eventfile = 'config'
 if len(sys.argv) > 1:
     eventfile = sys.argv[1]
 event = load_config(eventfile)
-lectures = load_lectures(eventfile)
+lectures = load_lectures(event, eventfile)
 create_CNAME(event)
 create_index_page(event,lectures)
 indexpage.close()
