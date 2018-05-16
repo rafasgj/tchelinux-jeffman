@@ -1,8 +1,8 @@
 <section id="programacao">
     <div class="container">
         <h2 class="subtitle">Programação</h2>
-        <p>O evento está com a chamada de trabalhos aberta. Assim que a
-        programação começar a ser definida, será divulgada nesse espaço.
+        <p>Estamos trabalhando na programação do evento. Assim que a
+        programação começar a ser definida, será diulgada nesse espaço.
         </p>
     </div>
 </section>
