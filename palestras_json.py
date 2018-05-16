@@ -8,13 +8,13 @@ from functools import reduce
 
 def load_data(eventfile):
     lectures = {}
-    fields = ["room", "author", "title", "abstract", "keywords", "level", "resume"]
+    fields = ["room", "author", "title", "abstract", "keywords", "level", "resume","topic","email","fone"]
     with open('data/%s.csv'%eventfile) as csvfile:
         for row in csv.reader(csvfile):
             if re.search(r'timestamp',"".join(row),re.I): continue
             passed_header = True
             if row[0] == '': continue
-            p = { k:v for k,v in zip(fields,row[1:8]) }
+            p = { k:v for k,v in zip(fields,row[1:10]) }
             lectures.setdefault(row[0],[]).append(p)
     return lectures
 
