@@ -40,7 +40,8 @@ def load_lectures(event, eventfile):
                 if not row[0].strip() or tst > 0:
                     continue
                 p = Lecture(*row[1:8])
-                lectures.setdefault(row[0], []).append(p)
+                timestamp = "{0:0>5s}".format(row[0])
+                lectures.setdefault(timestamp, []).append(p)
     except Exception as e:
         # Really, there's nothinng to do, but show it.
         print("Não encontrados dados de palestras para",
@@ -49,6 +50,11 @@ def load_lectures(event, eventfile):
         if event['callForPapers'].get('deadline', today) > today:
             msg = "Assumindo que a submissão de palestras não encerrou."
             print(msg, file=sys.stderr)
+    timestamp = sorted(lectures.keys())[0]
+    i = 0
+    while timestamp[i] == '0':
+        i += 1 
+    event['inicio'] = timestamp[i:]
     return lectures
 
 
@@ -263,11 +269,8 @@ def process_schedule(event, lectures):
             kn = slot[0]
             label = ''
             author = kn.author
-            if kn.keywords == "abertura":
+            if kn.keywords in ["abertura", "encerramento"]:
                 label = labels['all']
-            elif kn.keywords == "encerramento":
-                label = labels['all']
-                author = 'Moderador: ' + author
             print(template_other.format(effective_author=author,
                                         time=k, span=roomcount,
                                         label=label, **kn._asdict()),
@@ -350,8 +353,10 @@ def process_certificates(event):
     """Ajusta texto dos certificados."""
     start = """
         <p>Serão fornecidos certificados digitais para os participantes
-        do evento. Para obtê-los, você deverá utilizar o email fornecido
-        na sua inscrição para o evento.</p>
+        do evento, que confirmaram sua presença. Para obtê-los, você
+        deverá utilizar o email fornecido na sua inscrição para o
+        evento.</p>
+        <p>Não esqueça de confirmar sua presença no Credenciamento.</p>
     """
     link_certificados = "https://certificados.tchelinux.org"
     finished = """
