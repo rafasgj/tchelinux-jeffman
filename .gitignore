@@ -7,6 +7,9 @@
 !/data/config.json
 !/data/config.csv
 
+# Ignorar ferramentas...
+/.vscode/
+
 # Codinome de teste.
 /config/
 # Codinomes usuais de eventos.

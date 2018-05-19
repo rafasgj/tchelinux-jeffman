@@ -116,7 +116,7 @@ def format_date(date):
     """Format a date."""
     if type(date) != datetime:
         date = datetime.strptime(date, '%Y-%m-%d')
-    return date, date.strftime("%d de %B de %Y")
+    return date, string.capwords(date.strftime("%d de %B de %Y"), " de ")
 
 
 def fix_date(path, default_date, event):
@@ -136,10 +136,7 @@ def texto_cursos(event):
     institution = event['institution']
     cursos = institution.get('courses', None)
     if cursos and len(cursos) > 0:
-        if len(cursos) == 1:
-            cursos_text = "o curso "
-        else:
-            cursos_text = "os cursos "
+        cursos_text = "o "
         virgula = ""
         urlname = '<a href="{url}">{name}</a>'
         for curso in cursos:
@@ -147,7 +144,7 @@ def texto_cursos(event):
                 cursos_text += virgula + urlname.format(**curso)
             else:
                 cursos_text += curso['name']
-            virgula = ", e "
+            virgula = ", o "
         event['cursos'] = cursos_text + ", da"
     else:
         diretorio = institution.get('diretorio', None)
@@ -162,6 +159,7 @@ def load_config(eventfile):
     with open('data/'+eventfile+'.json', 'r') as config:
         event = json.load(config)
         date = fix_date('date', datetime.today()+timedelta(days=60), event)
+        event['year'] = date.year
         event['ano'] = date.year
         event['mes'] = date.month
         event['dia'] = date.day
@@ -199,7 +197,10 @@ def create_CNAME(event):
 
 def include(filename, **kargs):
     """Include a template HTML file."""
-    print(include_file(filename).format(**kargs), end='', file=indexpage)
+    if kargs:
+        print(include_file(filename).format(**kargs), end='', file=indexpage)
+    else:
+        print(include_file(filename), end='', file=indexpage)
 
 
 def process_schedule(event, lectures):
@@ -388,6 +389,7 @@ def create_index_page(event, lectures):
     process_support(event)
     include('footer', **event)
     include('load_scripts')
+    include('pixel')
     print('</body>\n<html>', file=indexpage)
 
 
