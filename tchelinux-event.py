@@ -42,6 +42,12 @@ def load_lectures(event, eventfile):
                 p = Lecture(*row[1:8])
                 timestamp = "{0:0>5s}".format(row[0])
                 lectures.setdefault(timestamp, []).append(p)
+        if len(lectures) > 0:
+            timestamp = sorted(lectures.keys())[0]
+            i = 0
+            while timestamp[i] == '0':
+                i += 1 
+            event['inicio'] = timestamp[i:]
     except Exception as e:
         # Really, there's nothinng to do, but show it.
         print("Não encontrados dados de palestras para",
@@ -50,11 +56,6 @@ def load_lectures(event, eventfile):
         if event['callForPapers'].get('deadline', today) > today:
             msg = "Assumindo que a submissão de palestras não encerrou."
             print(msg, file=sys.stderr)
-    timestamp = sorted(lectures.keys())[0]
-    i = 0
-    while timestamp[i] == '0':
-        i += 1 
-    event['inicio'] = timestamp[i:]
     return lectures
 
 
@@ -66,11 +67,10 @@ def inscricoes(event):
     texto = """
         <p> O evento tem <b>entrada franca</b>, por&eacute;m os
         participantes s&atilde;o encorajados a doar 2kg de alimentos
-        n&atilde;o perec&iacute;veis (exceto sal), que ser&atilde;o
+        n&atilde;o perec&iacute;veis (exceto sal), que s&atilde;o
         doados a institui&ccedil;&otilde;es de caridade da
         regi&atilde;o.</p>
-        <p>Os alimentos ser&atilde;o recebidos no momento do
-        credenciamento.</p>
+        <p>Os alimentos s&atilde;o recebidos no momento do credenciamento.</p>
     """
     before = """
         <p>As inscri&ccedil;&otilde;es para participação no evento
@@ -95,6 +95,8 @@ def inscricoes(event):
         dia e local do evento, mediante disponibilidade de vagas.</b>
         </p>
         """
+    event['enrollment'].setdefault('availability', 300)
+    event['enrollment'].setdefault('url', '')
     start_date = event['enrollment']['start']
     end_date = event['enrollment']['deadline']
     encerradas = event['enrollment'].get('closed', False)
@@ -108,6 +110,7 @@ def inscricoes(event):
         else:
             event['texto_inscricoes'] = texto + closed.format(**event)
     else:  # evento já realizado..
+        print ('Evento já realizado. Criando site de encerramento.')
         event['titulo_inscricoes'] = "Resultados"
         event['texto_inscricoes'] = texto + after.format(**event)
 
@@ -163,6 +166,7 @@ def load_config(eventfile):
         event['ano'] = date.year
         event['mes'] = date.month
         event['dia'] = date.day
+        event['inicio'] = '08:30'
         institution = event['institution']
         institution.setdefault('short_name', institution['long_name'])
         if institution.setdefault('diretorio', ''):
