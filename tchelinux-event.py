@@ -101,7 +101,7 @@ def inscricoes(event):
     end_date = event['enrollment']['deadline']
     encerradas = event['enrollment'].get('closed', False)
     tdy = datetime.today()
-    if date > datetime.today():  # se evento ainda nao se realizou...
+    if date <= datetime.today():  # se evento ainda nao se realizou...
         event['titulo_inscricoes'] = "Inscri&ccedil;&otilde;es"
         if tdy < start_date:
             event['texto_inscricoes'] = texto + before.format(**event)
@@ -176,10 +176,14 @@ def load_config(eventfile):
             institution['artigo'] = 'a'
         if institution.get('local_map', None):
             event['local_map'] = """
+ <div id="local_map">
                 <div id="local_map">
+                    <br/>
                     <h4>Mapa da {institution[short_name]}</h4>
+                    <div id="map_image">
                     <img src="images/{institution[local_map]}"
                          alt="{institution[short_name]}" class="photo"/>
+                    </div>
                 </div>""".format(**event)
         else:
             event['local_map'] = ''

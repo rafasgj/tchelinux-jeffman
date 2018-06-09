@@ -295,3 +295,10 @@ a.apoio-logo.apoio-link:hover {
     box-shadow: 0 3px 3px 0 rgba(0, 0, 0, 1.15);
     list-style: none;
 }
+
+#local_map > #map_image {
+    margin: auto;
+    width: 100%;
+    text-align: center;
+}
+
