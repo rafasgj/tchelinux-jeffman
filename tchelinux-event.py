@@ -101,7 +101,7 @@ def inscricoes(event):
     end_date = event['enrollment']['deadline']
     encerradas = event['enrollment'].get('closed', False)
     tdy = datetime.today()
-    if date <= datetime.today():  # se evento ainda nao se realizou...
+    if date >= datetime.today():  # se evento ainda nao se realizou...
         event['titulo_inscricoes'] = "Inscri&ccedil;&otilde;es"
         if tdy < start_date:
             event['texto_inscricoes'] = texto + before.format(**event)
