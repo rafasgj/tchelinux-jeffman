@@ -46,7 +46,7 @@ def load_lectures(event, eventfile):
             timestamp = sorted(lectures.keys())[0]
             i = 0
             while timestamp[i] == '0':
-                i += 1 
+                i += 1
             event['inicio'] = timestamp[i:]
     except Exception as e:
         # Really, there's nothinng to do, but show it.
@@ -110,7 +110,7 @@ def inscricoes(event):
         else:
             event['texto_inscricoes'] = texto + closed.format(**event)
     else:  # evento já realizado..
-        print ('Evento já realizado. Criando site de encerramento.')
+        print('Evento já realizado. Criando site de encerramento.')
         event['titulo_inscricoes'] = "Resultados"
         event['texto_inscricoes'] = texto + after.format(**event)
 
@@ -138,7 +138,7 @@ def texto_cursos(event):
     """Cria texto dos cursos que organizam o evento."""
     institution = event['institution']
     cursos = institution.get('courses', None)
-    if cursos and len(cursos) > 0:
+    if cursos is not None and len(cursos) > 0:
         cursos_text = "o "
         virgula = ""
         urlname = '<a href="{url}">{name}</a>'
@@ -152,7 +152,7 @@ def texto_cursos(event):
     else:
         diretorio = institution.get('diretorio', None)
         if diretorio is not None:
-            event['cursos'] = 'o ' + diretorio
+            event['cursos'] = 'o ' + diretorio + ', da'
         else:
             event['cursos'] = 'a'
 
@@ -169,11 +169,6 @@ def load_config(eventfile):
         event['inicio'] = '08:30'
         institution = event['institution']
         institution.setdefault('short_name', institution['long_name'])
-        if institution.setdefault('diretorio', ''):
-            institution['artigo'] = 'o'
-            institution['diretorio'] += ' da '
-        else:
-            institution['artigo'] = 'a'
         if institution.get('local_map', None):
             event['local_map'] = """
  <div id="local_map">
