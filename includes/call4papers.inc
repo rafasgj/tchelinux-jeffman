@@ -2,7 +2,7 @@
     <div class="container">
         <h2 class="subtitle">Programação</h2>
         <p>Estamos trabalhando na programação do evento. Assim que a
-        programação começar a ser definida, será diulgada nesse espaço.
+        programação começar a ser definida, será divulgada nesse espaço.
         </p>
     </div>
 </section>
