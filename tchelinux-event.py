@@ -39,6 +39,7 @@ def load_lectures(event, eventfile):
                 tst = len(set(row[0]) & set(string.ascii_letters))
                 if not row[0].strip() or tst > 0:
                     continue
+                print("Processing:",row[3])
                 p = Lecture(*row[1:8])
                 timestamp = "{0:0>5s}".format(row[0])
                 lectures.setdefault(timestamp, []).append(p)
@@ -50,7 +51,8 @@ def load_lectures(event, eventfile):
             event['inicio'] = timestamp[i:]
     except Exception as e:
         # Really, there's nothinng to do, but show it.
-        print("Não encontrados dados de palestras para",
+        print("Exception:", str(e))
+        print("Não foram encontrados dados de palestras para",
               eventfile, file=sys.stderr)
         today = datetime.today()
         if event['callForPapers'].get('deadline', today) > today:
